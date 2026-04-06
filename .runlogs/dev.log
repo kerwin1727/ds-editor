@@ -1,0 +1,564 @@
+
+> ai-media-monorepo@ dev E:\kerwin\Personal\AI自媒体全能工具\2_code
+> pnpm -r --parallel --filter ./upstream/wx-editor --filter ./upstream/wechat-article-exporter dev
+
+Scope: 2 of 3 workspace projects
+upstream/wechat-article-exporter dev$ node node_modules/nuxt/bin/nuxt.mjs dev
+upstream/wx-editor dev$ vite --host
+upstream/wechat-article-exporter dev: |
+upstream/wechat-article-exporter dev: •  [32mNuxt [1m3.21.2[22m[39m[90m (with [39m[90mNitro [1m2.12.9[22m[39m[90m, Vite [1m7.3.1[22m[39m[90m and Vue [1m3.5.31[22m[39m[90m)[39m
+upstream/wechat-article-exporter dev: [32m  ➜ Local:   [39m [36m[4mhttp://localhost:[1m3000[22m/[24m[39m
+upstream/wechat-article-exporter dev: [90m  ➜ Network:  use [37m--host[90m to expose[39m
+upstream/wechat-article-exporter dev: [nuxt] modules:before: 0.956ms
+upstream/wechat-article-exporter dev: [36mi[39m Module [36mvueuse[39m took [36m2.48ms[39m to setup.
+upstream/wechat-article-exporter dev: [nuxt] kit:compatibility: 0.067ms
+upstream/wechat-article-exporter dev: [nuxt] kit:compatibility: 0.033ms
+upstream/wechat-article-exporter dev: [nuxt] icon:serverKnownCssClasses: 0.036ms
+upstream/wechat-article-exporter dev: [36mi[39m Module [36m@nuxt/icon[39m took [36m8.23ms[39m to setup.
+upstream/wechat-article-exporter dev: [nuxt] kit:compatibility: 0.215ms
+upstream/wechat-article-exporter dev: [nuxt] kit:compatibility: 0.12ms
+upstream/wechat-article-exporter dev: [36mi[39m Module [36m@nuxtjs/color-mode[39m took [36m24ms[39m to setup.
+upstream/wechat-article-exporter dev: [nuxt] kit:compatibility: 0.045ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt:tailwindcss[90m][39m [36mi[39m Using default Tailwind CSS file
+upstream/wechat-article-exporter dev: [36mi[39m Module [36m@nuxtjs/tailwindcss[39m took [36m68.17ms[39m to setup.
+upstream/wechat-article-exporter dev: [36mi[39m Module [36m@nuxt/ui[39m took [36m400.16ms[39m to setup.
+upstream/wechat-article-exporter dev: [nuxt] kit:compatibility: 0.051ms
+upstream/wechat-article-exporter dev: [36mi[39m Module [36mnuxt-monaco-editor[39m took [36m4.57ms[39m to setup.
+upstream/wechat-article-exporter dev: [nuxt] kit:compatibility: 0.089ms
+upstream/wechat-article-exporter dev: [36mi[39m Module [36m@sentry/nuxt/module[39m took [36m43.22ms[39m to setup.
+upstream/wechat-article-exporter dev: [nuxt] kit:compatibility: 0.051ms
+upstream/wechat-article-exporter dev: [43m[30m WARN [39m[49m [umami] id is missing or incorrectly configured. Check module config.
+upstream/wechat-article-exporter dev: [43m[30m WARN [39m[49m [umami] Your API endpoint is missing or incorrectly configured. Check [36mhost[39m and/or [36mcustomEndpoint[39m in module config.
+upstream/wechat-article-exporter dev: [36mi[39m [umami] Currently running in test mode due to incorrect/missing options.
+upstream/wechat-article-exporter dev: [nuxt] kit:compatibility: 1.437ms
+upstream/wechat-article-exporter dev: [36mi[39m Module [36mnuxt-umami[39m took [36m5.97ms[39m to setup.
+upstream/wechat-article-exporter dev: [nuxt] pages:routerOptions: 0.028ms
+upstream/wechat-article-exporter dev: [36mi[39m Module [36mnuxt:pages[39m took [36m32.02ms[39m to setup.
+upstream/wechat-article-exporter dev: [36mi[39m Module [36mnuxt:meta[39m took [36m5.99ms[39m to setup.
+upstream/wechat-article-exporter dev: [nuxt] kit:compatibility: 1.017ms
+upstream/wechat-article-exporter dev: [36mi[39m Module [36mnuxt:components[39m took [36m17.58ms[39m to setup.
+upstream/wechat-article-exporter dev: [36mi[39m Module [36mnuxt:imports[39m took [36m2.97ms[39m to setup.
+upstream/wechat-article-exporter dev: [36mi[39m Module [36mnuxt:nuxt-config-schema[39m took [36m3.06ms[39m to setup.
+upstream/wechat-article-exporter dev: [36mi[39m Module [36m@nuxt/telemetry[39m took [36m0.43ms[39m to setup.
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:loadConfig: 0.06ms
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:loadConfig: 0.036ms
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:config: 6.614ms
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:resolvedConfig: 0.032ms
+upstream/wechat-article-exporter dev: [nuxt] imports:dirs: 0.122ms
+upstream/wechat-article-exporter dev: [nuxt] imports:sources: 192.752ms
+upstream/wechat-article-exporter dev: [nuxt] imports:context: 0.081ms
+upstream/wechat-article-exporter dev: [nuxt] imports:extend: 0.341ms
+upstream/wechat-article-exporter dev: [nuxt] builder:generateApp: 0.039ms
+upstream/wechat-article-exporter dev: [nuxt] schema:extend: 0.133ms
+upstream/wechat-article-exporter dev: [nuxt] schema:resolved: 0.04ms
+upstream/wechat-article-exporter dev: [nuxt] modules:done: 1.182s
+upstream/wechat-article-exporter dev: [36mi[39m Nuxt Icon server bundle mode is set to [36mlocal[39m
+upstream/wechat-article-exporter dev: [nuxt] nitro:config: 196.495ms
+upstream/wechat-article-exporter dev: [nuxt] nitro:init: 0.735ms
+upstream/wechat-article-exporter dev: [nuxt] ready: 0.277ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt:tailwindcss[90m][39m [36mi[39m Tailwind Viewer: [4m[33mhttp://localhost:3000/_tailwind/[39m[24m
+upstream/wechat-article-exporter dev: [nuxt] listen: 0.904ms
+upstream/wechat-article-exporter dev: [nuxt] components:dirs: 0.111ms
+upstream/wechat-article-exporter dev: [nuxt] app:resolve: 5.233ms
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:loadConfig: 0.044ms
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:loadConfig: 0.035ms
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:config: 11.694ms
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:resolvedConfig: 0.056ms
+upstream/wechat-article-exporter dev: [nuxt] pages:extend: 91.1ms
+upstream/wechat-article-exporter dev: [nuxt] pages:resolved: 0.433ms
+upstream/wechat-article-exporter dev: [nuxt] builder:generateApp: 0.103ms
+upstream/wechat-article-exporter dev: [nuxt] builder:generateApp: 0.021ms
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:internal:regenerateTemplates: 0.517ms
+upstream/wechat-article-exporter dev: [nuxt] prepare:types: 7.285ms
+upstream/wechat-article-exporter dev: [nuxt] components:extend: 1.176ms
+upstream/wechat-article-exporter dev: [nuxt] app:templates: 330.317ms
+upstream/wechat-article-exporter dev: [nuxt] icon:clientBundleIcons: 49.925ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mapp-component.mjs[39m in 65.18ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/app.config.d.ts[39m in 65.06ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mapp.config.mjs[39m in 65.15ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/app-defaults.d.ts[39m in 65.34ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/build.d.ts[39m in 65.56ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mnitro.client.mjs[39m in 60.92ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mcss.mjs[39m in 60.95ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mfetch.mjs[39m in 60.99ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36merror-component.mjs[39m in 61.26ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mglobal-polyfills.mjs[39m in 61.58ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mlayouts.mjs[39m in 61.77ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mmiddleware.mjs[39m in 61.59ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mnuxt.config.mjs[39m in 59.78ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mpaths.mjs[39m in 58.89ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mroot-component.mjs[39m in 58.93ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtest-component-wrapper.mjs[39m in 59.31ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/vue-shim.d.ts[39m in 59.68ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/nitro-layouts.d.ts[39m in 60.53ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/builder-env.d.ts[39m in 60.91ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mui.colors.mjs[39m in 62.44ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mui.colors.d.ts[39m in 63.49ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mcolor-mode-options.mjs[39m in 62.84ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mnuxtui-tailwind.config.mjs[39m in 63.08ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36msentry-client-config.mjs[39m in 63.15ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36msentry--nuxt-pages-data.mjs[39m in 64.1ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mumami.config.mjs[39m in 64.25ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mroutes.mjs[39m in 64.38ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mpages.mjs[39m in 59.91ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/middleware.d.ts[39m in 59.56ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/nitro-middleware.d.ts[39m in 59.88ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/layouts.d.ts[39m in 60.07ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36munhead-options.mjs[39m in 60.19ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36munhead.config.mjs[39m in 60.27ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mcomponents.d.ts[39m in 60.37ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/components.d.ts[39m in 48.92ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mcomponents.plugin.mjs[39m in 43.37ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mcomponent-names.mjs[39m in 43.26ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mcomponents.islands.mjs[39m in 43.3ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mcomponent-chunk.mjs[39m in 42.99ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/postcss.mjs[39m in 59.09ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/debugScreens.mjs[39m in 57.14ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/aspectRatio.mjs[39m in 56.79ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/typography.mjs[39m in 56.96ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/containers.mjs[39m in 56.56ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/accentColor.mjs[39m in 56.75ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/animation.mjs[39m in 52.72ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/aria.mjs[39m in 53.03ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropBlur.mjs[39m in 53.3ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropBrightness.mjs[39m in 53.56ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropContrast.mjs[39m in 53.77ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropGrayscale.mjs[39m in 54.39ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropHueRotate.mjs[39m in 54.89ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropInvert.mjs[39m in 56.41ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropOpacity.mjs[39m in 56.9ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropSaturate.mjs[39m in 57.93ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropSepia.mjs[39m in 58.45ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backgroundColor.mjs[39m in 58.83ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backgroundImage.mjs[39m in 58.93ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backgroundOpacity.mjs[39m in 59.2ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backgroundPosition.mjs[39m in 59.44ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backgroundSize.mjs[39m in 59.66ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/blur.mjs[39m in 59.98ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/borderColor.mjs[39m in 60.45ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/borderOpacity.mjs[39m in 60.57ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/borderRadius.mjs[39m in 60.78ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/borderSpacing.mjs[39m in 60.99ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/borderWidth.mjs[39m in 61.14ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/boxShadow.mjs[39m in 61.35ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/boxShadowColor.mjs[39m in 61.54ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/brightness.mjs[39m in 61.61ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/caretColor.mjs[39m in 61.8ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/colors.mjs[39m in 61.87ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/columns.mjs[39m in 61.92ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/container.mjs[39m in 62.08ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/content.mjs[39m in 62.29ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/contrast.mjs[39m in 62.49ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/cursor.mjs[39m in 62.67ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/divideColor.mjs[39m in 62.87ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/divideOpacity.mjs[39m in 63.01ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/divideWidth.mjs[39m in 63.23ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/dropShadow.mjs[39m in 63.43ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/fill.mjs[39m in 63.63ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/flex.mjs[39m in 63.6ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/flexBasis.mjs[39m in 63.94ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/flexGrow.mjs[39m in 64.27ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/flexShrink.mjs[39m in 64.52ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/fontFamily.mjs[39m in 64.75ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/fontSize.mjs[39m in 64.96ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/fontWeight.mjs[39m in 65.17ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gap.mjs[39m in 65.42ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gradientColorStops.mjs[39m in 65.62ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gradientColorStopPositions.mjs[39m in 65.61ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/grayscale.mjs[39m in 65.8ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridAutoColumns.mjs[39m in 65.98ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridAutoRows.mjs[39m in 66.17ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridColumn.mjs[39m in 66.37ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridColumnEnd.mjs[39m in 66.54ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridColumnStart.mjs[39m in 66.78ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridRow.mjs[39m in 66.97ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridRowEnd.mjs[39m in 67.13ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridRowStart.mjs[39m in 67.31ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridTemplateColumns.mjs[39m in 67.51ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridTemplateRows.mjs[39m in 67.7ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/height.mjs[39m in 67.9ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/hueRotate.mjs[39m in 68.07ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/inset.mjs[39m in 68.27ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/invert.mjs[39m in 68.43ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/keyframes.mjs[39m in 68.65ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/letterSpacing.mjs[39m in 68.84ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/lineHeight.mjs[39m in 69.08ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/listStyleType.mjs[39m in 69.28ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/listStyleImage.mjs[39m in 69.57ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/margin.mjs[39m in 69.83ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/lineClamp.mjs[39m in 70.03ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/maxHeight.mjs[39m in 70.22ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/maxWidth.mjs[39m in 70.39ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/minHeight.mjs[39m in 70.53ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/minWidth.mjs[39m in 70.71ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/objectPosition.mjs[39m in 70.87ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/opacity.mjs[39m in 71.06ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/order.mjs[39m in 71.24ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/outlineColor.mjs[39m in 71.41ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/outlineOffset.mjs[39m in 71.38ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/outlineWidth.mjs[39m in 71.58ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/padding.mjs[39m in 71.79ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/placeholderColor.mjs[39m in 71.95ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/placeholderOpacity.mjs[39m in 71.97ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/ringColor.mjs[39m in 72.16ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/ringOffsetColor.mjs[39m in 72.16ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/ringOffsetWidth.mjs[39m in 72.16ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/ringOpacity.mjs[39m in 72.43ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/ringWidth.mjs[39m in 72.62ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/rotate.mjs[39m in 72.83ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/saturate.mjs[39m in 73.18ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/scale.mjs[39m in 73.43ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/screens.mjs[39m in 73.64ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/scrollMargin.mjs[39m in 73.85ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/scrollPadding.mjs[39m in 74.05ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/sepia.mjs[39m in 74.44ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/skew.mjs[39m in 74.74ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/space.mjs[39m in 74.98ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/spacing.mjs[39m in 75.27ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/stroke.mjs[39m in 75.54ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/strokeWidth.mjs[39m in 75.61ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/supports.mjs[39m in 75.83ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/data.mjs[39m in 76.05ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/textColor.mjs[39m in 76.25ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/textDecorationColor.mjs[39m in 76.76ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/textDecorationThickness.mjs[39m in 77.24ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/textIndent.mjs[39m in 77.8ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/textOpacity.mjs[39m in 78.11ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/textUnderlineOffset.mjs[39m in 78.4ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/transformOrigin.mjs[39m in 78.73ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/transitionDelay.mjs[39m in 79.05ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/transitionDuration.mjs[39m in 79.29ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/transitionProperty.mjs[39m in 79.52ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/transitionTimingFunction.mjs[39m in 79.75ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/translate.mjs[39m in 79.99ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/size.mjs[39m in 80.6ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/width.mjs[39m in 80.88ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/willChange.mjs[39m in 81.08ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/zIndex.mjs[39m in 81.31ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme.mjs[39m in 81.51ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/corePlugins.mjs[39m in 81.39ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/plugins.mjs[39m in 81.56ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/content/relative.mjs[39m in 81.75ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/content/files.mjs[39m in 81.97ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/content/extract.mjs[39m in 84.62ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/content/transform.mjs[39m in 84.96ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/content.mjs[39m in 85.28ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/safelist.mjs[39m in 85.42ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/darkMode.mjs[39m in 85.56ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/variants/aspectRatio.mjs[39m in 85.75ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/variants.mjs[39m in 86.02ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/presets.mjs[39m in 86.23ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/prefix.mjs[39m in 86.43ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/important.mjs[39m in 86.69ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/separator.mjs[39m in 86.88ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/blocklist.mjs[39m in 87.07ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/index.mjs[39m in 87.31ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/tailwind.config.d.ts[39m in 87.44ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mnuxt-icon-server-bundle.mjs[39m in 130.85ms
+upstream/wechat-article-exporter dev: [nuxt] nitro:prepare:types: 80.607ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mimports.mjs[39m in 105.18ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mimports.d.ts[39m in 105.09ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mnuxt-icon-client-bundle.mjs[39m in 132.92ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/nitro-nuxt.d.ts[39m in 83.64ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/schema.d.ts[39m in 141.36ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/imports.d.ts[39m in 129.1ms
+upstream/wechat-article-exporter dev: [nuxt] pages:routerOptions: 0.04ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mrouter.options.mjs[39m in 155.03ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mplugins.server.mjs[39m in 44.14ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mplugins.client.mjs[39m in 53.53ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/plugins.d.ts[39m in 61.63ms
+upstream/wechat-article-exporter dev: [nuxt] imports:extend: 0.077ms
+upstream/wechat-article-exporter dev: [nuxt] builder:generateApp: 0.037ms
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:loadConfig: 0.043ms
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:loadConfig: 0.068ms
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:config: 3.397ms
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:resolvedConfig: 0.106ms
+upstream/wechat-article-exporter dev: [nuxt] app:templatesGenerated: 490.12ms
+upstream/wechat-article-exporter dev: [nuxt] build:before: 0.041ms
+upstream/wechat-article-exporter dev: [nuxt] builder:chokidar:watch: 181.761ms
+upstream/wechat-article-exporter dev: [nuxt] components:dirs: 0.122ms
+upstream/wechat-article-exporter dev: [nuxt] app:resolve: 5.867ms
+upstream/wechat-article-exporter dev: [43m[30m WARN [39m[49m [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: [36mnpm i baseline-browser-mapping@latest -D[39m
+upstream/wx-editor dev:   [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m12504[22m[2m[0m ms[22m
+upstream/wx-editor dev:   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/md/[39m
+upstream/wx-editor dev:   [32m➜[39m  [1mNetwork[22m: [36mhttp://172.30.240.1:[1m5173[22m/md/[39m
+upstream/wx-editor dev:   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.1.10:[1m5173[22m/md/[39m
+upstream/wx-editor dev:   ➜  Vue DevTools: Open http://localhost:5173/md/__devtools__/ as a separate window
+upstream/wx-editor dev:   ➜  Vue DevTools: Press Alt(⌥)+Shift(⇧)+D in App to toggle the Vue DevTools
+upstream/wechat-article-exporter dev: [nuxt] vite:extend: 23.552ms
+upstream/wechat-article-exporter dev: [nuxt] vite:extendConfig: 13.239ms
+upstream/wechat-article-exporter dev: [nuxt] vite:configResolved: 0.063ms
+upstream/wechat-article-exporter dev: [nuxt] server:devHandler: 0.097ms
+upstream/wechat-article-exporter dev: [nuxt] components:extend: 0.294ms
+upstream/wechat-article-exporter dev: [nuxt] app:templates: 1.305s
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mcss.mjs[39m in 0.21ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/postcss.mjs[39m in 0.38ms
+upstream/wx-editor dev: Error: [31m  Failed to scan for dependencies from entries:
+upstream/wx-editor dev:   E:/kerwin/Personal/AI自媒体全能工具/2_code/upstream/wx-editor/index.html
+upstream/wx-editor dev:   [39m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCannot find module 'unenv/mock/empty' from '.'[0m [1m[35m[plugin node-stdlib-browser-alias][0m
+upstream/wx-editor dev:     E:\kerwin\Personal\AI自媒体全能工具\2_code\node_modules\.pnpm\resolve@1.22.11\node_modules\resolve\lib\async.js:150:34:
+upstream/wx-editor dev: [37m      150 │                 var moduleError = [32m[37mnew Error("Cannot find module '...
+upstream/wx-editor dev:           ╵                                   [32m^[0m
+upstream/wx-editor dev:     at E:\kerwin\Personal\AI自媒体全能工具\2_code\node_modules\.pnpm\resolve@1.22.11\node_modules\resolve\lib\async.js:150:35
+upstream/wx-editor dev:     at processDirs (E:\kerwin\Personal\AI自媒体全能工具\2_code\node_modules\.pnpm\resolve@1.22.11\node_modules\resolve\lib\async.js:303:39)
+upstream/wx-editor dev:     at isdir (E:\kerwin\Personal\AI自媒体全能工具\2_code\node_modules\.pnpm\resolve@1.22.11\node_modules\resolve\lib\async.js:310:32)
+upstream/wx-editor dev:     at E:\kerwin\Personal\AI自媒体全能工具\2_code\node_modules\.pnpm\resolve@1.22.11\node_modules\resolve\lib\async.js:38:69
+upstream/wx-editor dev:     at FSReqCallback.oncomplete (node:fs:198:21)
+upstream/wx-editor dev:     at failureErrorWithLog (E:\kerwin\Personal\AI自媒体全能工具\2_code\node_modules\.pnpm\esbuild@0.21.5\node_modules\esbuild\lib\main.js:1472:15)
+upstream/wx-editor dev:     at E:\kerwin\Personal\AI自媒体全能工具\2_code\node_modules\.pnpm\esbuild@0.21.5\node_modules\esbuild\lib\main.js:860:16
+upstream/wx-editor dev:     at responseCallbacks.<computed> (E:\kerwin\Personal\AI自媒体全能工具\2_code\node_modules\.pnpm\esbuild@0.21.5\node_modules\esbuild\lib\main.js:622:9)
+upstream/wx-editor dev:     at handleIncomingPacket (E:\kerwin\Personal\AI自媒体全能工具\2_code\node_modules\.pnpm\esbuild@0.21.5\node_modules\esbuild\lib\main.js:677:12)
+upstream/wx-editor dev:     at Socket.readFromStdout (E:\kerwin\Personal\AI自媒体全能工具\2_code\node_modules\.pnpm\esbuild@0.21.5\node_modules\esbuild\lib\main.js:600:7)
+upstream/wx-editor dev:     at Socket.emit (node:events:518:28)
+upstream/wx-editor dev:     at addChunk (node:internal/streams/readable:561:12)
+upstream/wx-editor dev:     at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+upstream/wx-editor dev:     at Readable.push (node:internal/streams/readable:392:5)
+upstream/wx-editor dev:     at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+upstream/wechat-article-exporter dev: [nuxt] vite:serverCreated: 0.852ms
+upstream/wechat-article-exporter dev: [32m√[39m Vite client built in 360ms
+upstream/wechat-article-exporter dev: [nuxt] vite:extendConfig: 6.013ms
+upstream/wechat-article-exporter dev: [nuxt] vite:configResolved: 0.034ms
+upstream/wechat-article-exporter dev: [nuxt] build:manifest: 1.115ms
+upstream/wechat-article-exporter dev: [nuxt] imports:extend: 0.049ms
+upstream/wechat-article-exporter dev: [nuxt] vite:compiled: 1.071ms
+upstream/wechat-article-exporter dev: [32m√[39m Vite server built in 494ms
+upstream/wechat-article-exporter dev: [nuxt] schema:beforeWrite: 0.079ms
+upstream/wechat-article-exporter dev: [43m[30m WARN [39m[49m [nuxt] Expected [36m@nuxt/kit[39m to be at least [36m3.21.2[39m but got [36m3.20.1[39m. This might lead to unexpected behavior. Check your package.json or refresh your lockfile.
+upstream/wechat-article-exporter dev: [nuxt] schema:written: 0.039ms
+upstream/wechat-article-exporter dev: [nuxt] nitro:build:before: 0.276ms
+upstream/wechat-article-exporter dev: [nuxt] components:dirs: 0.046ms
+upstream/wechat-article-exporter dev: [nuxt] app:resolve: 1.614ms
+upstream/wechat-article-exporter dev: [nitro] build:before: 0.143ms
+upstream/wechat-article-exporter dev: [nitro] rollup:before: 104.622ms
+upstream/wechat-article-exporter dev: [nuxt] components:extend: 0.21ms
+upstream/wechat-article-exporter dev: [nuxt] app:templates: 447.384ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/imports.d.ts[39m in 2.53ms
+upstream/wechat-article-exporter dev: [nuxt] builder:generateApp : 901.84ms
+upstream/wechat-article-exporter dev: [nuxt] app:templatesGenerated: 1.548s
+upstream/wechat-article-exporter dev: [nuxt] builder:generateApp: 4.307s
+upstream/wechat-article-exporter dev: [nitro] dev:start: 0.073ms
+upstream/wechat-article-exporter dev: [nuxt] components:dirs: 0.026ms
+upstream/wechat-article-exporter dev: [nuxt] app:resolve: 1.117ms
+upstream/wechat-article-exporter dev: [nuxt] components:extend: 0.131ms
+upstream/wechat-article-exporter dev: [nuxt] app:templates: 100.696ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/debugScreens.mjs[39m in 14.57ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/aspectRatio.mjs[39m in 14.77ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/typography.mjs[39m in 14.87ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/containers.mjs[39m in 14.39ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/accentColor.mjs[39m in 14.45ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/animation.mjs[39m in 14.4ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/aria.mjs[39m in 14.48ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropBlur.mjs[39m in 14.55ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropBrightness.mjs[39m in 14.62ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropContrast.mjs[39m in 14.7ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropGrayscale.mjs[39m in 14.78ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropHueRotate.mjs[39m in 14.87ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropInvert.mjs[39m in 14.96ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropOpacity.mjs[39m in 15.05ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropSaturate.mjs[39m in 15.13ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backdropSepia.mjs[39m in 15.21ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backgroundColor.mjs[39m in 15.3ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backgroundImage.mjs[39m in 15.21ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backgroundOpacity.mjs[39m in 15.28ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backgroundPosition.mjs[39m in 15.36ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/backgroundSize.mjs[39m in 15.45ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/blur.mjs[39m in 15.57ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/borderColor.mjs[39m in 15.66ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/borderOpacity.mjs[39m in 15.58ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/borderRadius.mjs[39m in 15.65ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/borderSpacing.mjs[39m in 15.75ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/borderWidth.mjs[39m in 15.82ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/boxShadow.mjs[39m in 15.95ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/boxShadowColor.mjs[39m in 16.04ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/brightness.mjs[39m in 15.96ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/caretColor.mjs[39m in 16.03ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/colors.mjs[39m in 15.95ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/columns.mjs[39m in 15.87ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/container.mjs[39m in 15.96ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/content.mjs[39m in 16.07ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/contrast.mjs[39m in 16.15ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/cursor.mjs[39m in 16.23ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/divideColor.mjs[39m in 16.29ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/divideOpacity.mjs[39m in 16.25ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/divideWidth.mjs[39m in 16.34ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/dropShadow.mjs[39m in 16.5ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/fill.mjs[39m in 16.59ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/flex.mjs[39m in 16.55ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/flexBasis.mjs[39m in 16.62ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/flexGrow.mjs[39m in 16.69ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/flexShrink.mjs[39m in 16.77ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/fontFamily.mjs[39m in 16.86ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/fontSize.mjs[39m in 16.95ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/fontWeight.mjs[39m in 17.01ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gap.mjs[39m in 17.09ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gradientColorStops.mjs[39m in 17.16ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gradientColorStopPositions.mjs[39m in 17.14ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/grayscale.mjs[39m in 17.25ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridAutoColumns.mjs[39m in 17.58ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridAutoRows.mjs[39m in 17.81ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridColumn.mjs[39m in 17.93ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridColumnEnd.mjs[39m in 18.01ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridColumnStart.mjs[39m in 18.09ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridRow.mjs[39m in 18.17ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridRowEnd.mjs[39m in 18.28ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridRowStart.mjs[39m in 18.42ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridTemplateColumns.mjs[39m in 18.51ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/gridTemplateRows.mjs[39m in 18.53ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/height.mjs[39m in 18.61ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/hueRotate.mjs[39m in 18.67ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/inset.mjs[39m in 18.75ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/invert.mjs[39m in 18.8ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/keyframes.mjs[39m in 18.88ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/letterSpacing.mjs[39m in 18.95ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/lineHeight.mjs[39m in 19.03ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/listStyleType.mjs[39m in 19.07ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/listStyleImage.mjs[39m in 19.16ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/margin.mjs[39m in 19.26ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/lineClamp.mjs[39m in 19.29ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/maxHeight.mjs[39m in 19.38ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/maxWidth.mjs[39m in 19.41ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/minHeight.mjs[39m in 19.47ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/minWidth.mjs[39m in 19.51ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/objectPosition.mjs[39m in 19.46ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/opacity.mjs[39m in 19.53ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/order.mjs[39m in 19.59ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/outlineColor.mjs[39m in 19.65ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/outlineOffset.mjs[39m in 19.46ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/outlineWidth.mjs[39m in 19.54ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/padding.mjs[39m in 19.63ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/placeholderColor.mjs[39m in 19.75ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/placeholderOpacity.mjs[39m in 19.68ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/ringColor.mjs[39m in 19.75ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/ringOffsetColor.mjs[39m in 19.66ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/ringOffsetWidth.mjs[39m in 19.62ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/ringOpacity.mjs[39m in 19.7ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/ringWidth.mjs[39m in 19.78ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/rotate.mjs[39m in 19.86ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/saturate.mjs[39m in 19.96ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/scale.mjs[39m in 20.05ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/screens.mjs[39m in 20.13ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/scrollMargin.mjs[39m in 20.21ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/scrollPadding.mjs[39m in 20.29ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/sepia.mjs[39m in 20.38ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/skew.mjs[39m in 20.5ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/space.mjs[39m in 20.62ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/spacing.mjs[39m in 20.7ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/stroke.mjs[39m in 20.77ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/strokeWidth.mjs[39m in 20.73ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/supports.mjs[39m in 20.82ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/data.mjs[39m in 20.93ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/textColor.mjs[39m in 21.07ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/textDecorationColor.mjs[39m in 20.94ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/textDecorationThickness.mjs[39m in 20.9ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/textIndent.mjs[39m in 21.05ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/textOpacity.mjs[39m in 21.19ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/textUnderlineOffset.mjs[39m in 21.33ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/transformOrigin.mjs[39m in 21.48ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/transitionDelay.mjs[39m in 21.63ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/transitionDuration.mjs[39m in 21.77ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/transitionProperty.mjs[39m in 21.92ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/transitionTimingFunction.mjs[39m in 22.08ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/translate.mjs[39m in 22.29ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/size.mjs[39m in 22.43ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/width.mjs[39m in 22.54ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/willChange.mjs[39m in 22.65ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme/zIndex.mjs[39m in 22.81ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/theme.mjs[39m in 22.98ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/corePlugins.mjs[39m in 23.06ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/plugins.mjs[39m in 23.81ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/content/relative.mjs[39m in 24.16ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/content/files.mjs[39m in 24.75ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/content/extract.mjs[39m in 25.09ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/content/transform.mjs[39m in 25.37ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/content.mjs[39m in 25.63ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/safelist.mjs[39m in 25.83ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/darkMode.mjs[39m in 25.95ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/variants/aspectRatio.mjs[39m in 26.16ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/variants.mjs[39m in 26.35ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/presets.mjs[39m in 26.53ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/prefix.mjs[39m in 26.72ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/important.mjs[39m in 26.98ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/separator.mjs[39m in 27.18ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/blocklist.mjs[39m in 27.37ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtailwind/expose/index.mjs[39m in 27.53ms
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/tailwind.config.d.ts[39m in 27.79ms
+upstream/wechat-article-exporter dev: [41m[30m ERROR [39m[49m Pre-transform error: Failed to resolve import "#build/route-rules.mjs" from "../../node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/composables/manifest.js?v=81b6cd03". Does the file exist?
+upstream/wechat-article-exporter dev:   Plugin: [35mvite:import-analysis[39m
+upstream/wechat-article-exporter dev:   File: [36mE:/kerwin/Personal/AI自媒体全能工具/2_code/node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/composables/manifest.js?v=81b6cd03[39m:4:32
+upstream/wechat-article-exporter dev: [33m  2  |  import { appManifest as isAppManifestEnabled } from "#build/nuxt.config.mjs";
+upstream/wechat-article-exporter dev:   3  |  import { buildAssetsURL } from "#internal/nuxt/paths";
+upstream/wechat-article-exporter dev:   4  |  import _routeRulesMatcher from "#build/route-rules.mjs";
+upstream/wechat-article-exporter dev:      |                                  ^
+upstream/wechat-article-exporter dev:   5  |  const routeRulesMatcher = _routeRulesMatcher;
+upstream/wechat-article-exporter dev:   6  |  let manifest;[39m
+upstream/wechat-article-exporter dev: [41m[30m ERROR [39m[49m Pre-transform error: Failed to resolve import "#build/route-rules.mjs" from "../../node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/composables/manifest.js?v=81b6cd03". Does the file exist?
+upstream/wechat-article-exporter dev:   Plugin: [35mvite:import-analysis[39m
+upstream/wechat-article-exporter dev:   File: [36mE:/kerwin/Personal/AI自媒体全能工具/2_code/node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/composables/manifest.js?v=81b6cd03[39m:4:32
+upstream/wechat-article-exporter dev: [33m  2  |  import { appManifest as isAppManifestEnabled } from "#build/nuxt.config.mjs";
+upstream/wechat-article-exporter dev:   3  |  import { buildAssetsURL } from "#internal/nuxt/paths";
+upstream/wechat-article-exporter dev:   4  |  import _routeRulesMatcher from "#build/route-rules.mjs";
+upstream/wechat-article-exporter dev:      |                                  ^
+upstream/wechat-article-exporter dev:   5  |  const routeRulesMatcher = _routeRulesMatcher;
+upstream/wechat-article-exporter dev:   6  |  let manifest;[39m[2m (x2)[22m
+upstream/wechat-article-exporter dev: [41m[30m ERROR [39m[49m Pre-transform error: Failed to resolve import "#build/route-rules.mjs" from "../../node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/composables/manifest.js?v=81b6cd03". Does the file exist?
+upstream/wechat-article-exporter dev:   Plugin: [35mvite:import-analysis[39m
+upstream/wechat-article-exporter dev:   File: [36mE:/kerwin/Personal/AI自媒体全能工具/2_code/node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/composables/manifest.js?v=81b6cd03[39m:4:32
+upstream/wechat-article-exporter dev: [33m  2  |  import { appManifest as isAppManifestEnabled } from "#build/nuxt.config.mjs";
+upstream/wechat-article-exporter dev:   3  |  import { buildAssetsURL } from "#internal/nuxt/paths";
+upstream/wechat-article-exporter dev:   4  |  import _routeRulesMatcher from "#build/route-rules.mjs";
+upstream/wechat-article-exporter dev:      |                                  ^
+upstream/wechat-article-exporter dev:   5  |  const routeRulesMatcher = _routeRulesMatcher;
+upstream/wechat-article-exporter dev:   6  |  let manifest;[39m[2m (x3)[22m
+upstream/wechat-article-exporter dev: [41m[30m ERROR [39m[49m Pre-transform error: Failed to resolve import "#build/route-rules.mjs" from "../../node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/composables/manifest.js?v=81b6cd03". Does the file exist?
+upstream/wechat-article-exporter dev:   Plugin: [35mvite:import-analysis[39m
+upstream/wechat-article-exporter dev:   File: [36mE:/kerwin/Personal/AI自媒体全能工具/2_code/node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/composables/manifest.js?v=81b6cd03[39m:4:32
+upstream/wechat-article-exporter dev: [33m  2  |  import { appManifest as isAppManifestEnabled } from "#build/nuxt.config.mjs";
+upstream/wechat-article-exporter dev:   3  |  import { buildAssetsURL } from "#internal/nuxt/paths";
+upstream/wechat-article-exporter dev:   4  |  import _routeRulesMatcher from "#build/route-rules.mjs";
+upstream/wechat-article-exporter dev:      |                                  ^
+upstream/wechat-article-exporter dev:   5  |  const routeRulesMatcher = _routeRulesMatcher;
+upstream/wechat-article-exporter dev:   6  |  let manifest;[39m[2m (x4)[22m
+upstream/wechat-article-exporter dev: [41m[30m ERROR [39m[49m Pre-transform error: Failed to resolve import "#build/route-rules.mjs" from "../../node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/composables/manifest.js?v=81b6cd03". Does the file exist?
+upstream/wechat-article-exporter dev:   Plugin: [35mvite:import-analysis[39m
+upstream/wechat-article-exporter dev:   File: [36mE:/kerwin/Personal/AI自媒体全能工具/2_code/node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/composables/manifest.js?v=81b6cd03[39m:4:32
+upstream/wechat-article-exporter dev: [33m  2  |  import { appManifest as isAppManifestEnabled } from "#build/nuxt.config.mjs";
+upstream/wechat-article-exporter dev:   3  |  import { buildAssetsURL } from "#internal/nuxt/paths";
+upstream/wechat-article-exporter dev:   4  |  import _routeRulesMatcher from "#build/route-rules.mjs";
+upstream/wechat-article-exporter dev:      |                                  ^
+upstream/wechat-article-exporter dev:   5  |  const routeRulesMatcher = _routeRulesMatcher;
+upstream/wechat-article-exporter dev:   6  |  let manifest;[39m[2m (x5)[22m
+upstream/wechat-article-exporter dev: [nuxt] imports:extend: 0.1ms
+upstream/wechat-article-exporter dev: [41m[30m ERROR [39m[49m Pre-transform error: Failed to resolve import "#build/route-rules.mjs" from "../../node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/components/nuxt-layout.js?v=81b6cd03". Does the file exist?
+upstream/wechat-article-exporter dev:   Plugin: [35mvite:import-analysis[39m
+upstream/wechat-article-exporter dev:   File: [36mE:/kerwin/Personal/AI自媒体全能工具/2_code/node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/components/nuxt-layout.js?v=81b6cd03[39m:9:32
+upstream/wechat-article-exporter dev: [33m  7  |  import layouts from "#build/layouts";
+upstream/wechat-article-exporter dev:   8  |  import { appLayoutTransition as defaultLayoutTransition } from "#build/nuxt.config.mjs";
+upstream/wechat-article-exporter dev:   9  |  import _routeRulesMatcher from "#build/route-rules.mjs";
+upstream/wechat-article-exporter dev:      |                                  ^
+upstream/wechat-article-exporter dev:   10 |  const routeRulesMatcher = _routeRulesMatcher;
+upstream/wechat-article-exporter dev:   11 |  const LayoutLoader = defineComponent({[39m
+upstream/wechat-article-exporter dev: [41m[30m ERROR [39m[49m Pre-transform error: Failed to resolve import "#build/route-rules.mjs" from "../../node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/components/nuxt-layout.js?v=81b6cd03". Does the file exist?
+upstream/wechat-article-exporter dev:   Plugin: [35mvite:import-analysis[39m
+upstream/wechat-article-exporter dev:   File: [36mE:/kerwin/Personal/AI自媒体全能工具/2_code/node_modules/.pnpm/nuxt@3.21.2_@biomejs+biome@_b10e336716517da166f95b92c659776e/node_modules/nuxt/dist/app/components/nuxt-layout.js?v=81b6cd03[39m:9:32
+upstream/wechat-article-exporter dev: [33m  7  |  import layouts from "#build/layouts";
+upstream/wechat-article-exporter dev:   8  |  import { appLayoutTransition as defaultLayoutTransition } from "#build/nuxt.config.mjs";
+upstream/wechat-article-exporter dev:   9  |  import _routeRulesMatcher from "#build/route-rules.mjs";
+upstream/wechat-article-exporter dev:      |                                  ^
+upstream/wechat-article-exporter dev:   10 |  const routeRulesMatcher = _routeRulesMatcher;
+upstream/wechat-article-exporter dev:   11 |  const LayoutLoader = defineComponent({[39m[2m (x2)[22m
+upstream/wechat-article-exporter dev: [nuxt] components:dirs: 0.04ms
+upstream/wechat-article-exporter dev: [nuxt] app:resolve: 1.922ms
+upstream/wechat-article-exporter dev: [nitro] types:extend: 0.302ms
+upstream/wechat-article-exporter dev: [nuxt] components:extend: 0.436ms
+upstream/wechat-article-exporter dev: [nuxt] app:templates: 1.058s
+upstream/wechat-article-exporter dev: [90m[[90mnuxt[90m][39m [36mi[39m Compiled [36mtypes/imports.d.ts[39m in 5.2ms
+upstream/wechat-article-exporter dev: [nuxt] builder:generateApp : 5.907s
+upstream/wechat-article-exporter dev: [nuxt] app:templatesGenerated: 14.672s
+upstream/wechat-article-exporter dev: [nuxt] builder:generateApp: 15.204s
+upstream/wechat-article-exporter dev: [nuxt] tailwindcss:internal:regenerateTemplates: 15.207s
+upstream/wechat-article-exporter dev: [90m[[90mnitro[90m][39m [32m√[39m Nuxt Nitro server built in 31871ms
+upstream/wechat-article-exporter dev: [nitro] dev:reload: 12.305ms
+upstream/wechat-article-exporter dev: [nitro] compiled: 15.548ms
+upstream/wechat-article-exporter dev: [nuxt] build:done: 32.807s
+upstream/wechat-article-exporter dev: [36mi[39m Vite client warmed up in 7ms
+upstream/wechat-article-exporter dev: [90mD[39m Dev server (internal) initialized in 45551ms

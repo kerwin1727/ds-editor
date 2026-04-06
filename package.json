@@ -1,0 +1,21 @@
+{
+  "name": "ai-media-monorepo",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "install:all": "pnpm install -r",
+    "dev": "pnpm -r --parallel --filter ./apps/wx-editor dev",
+    "dev:all": "pnpm -r --parallel --filter ./apps/wx-editor --filter ./apps/backend dev",
+    "dev:backend": "pnpm --filter ./apps/backend dev",
+    "start:backend": "pnpm --filter ./apps/backend start",
+    "dev:editor": "pnpm --filter ./apps/wx-editor dev",
+    "build": "pnpm -r --filter ./apps/wx-editor build",
+    "build:editor": "pnpm --filter ./apps/wx-editor build",
+    "type-check": "pnpm --filter ./apps/wx-editor type-check"
+  },
+  "devDependencies": {
+    "vscode-jsonrpc": "8.2.1",
+    "vscode-languageserver-protocol": "3.17.5",
+    "vscode-languageserver-types": "3.17.5"
+  }
+}

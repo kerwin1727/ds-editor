@@ -1,0 +1,3 @@
+packages:
+  - "apps/wx-editor"
+  - "apps/backend"

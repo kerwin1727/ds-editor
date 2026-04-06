@@ -1,0 +1,257 @@
+
+> md@1.6.0 dev E:\kerwin\Personal\AI自媒体全能工具\2_code\upstream\wx-editor
+> vite --host
+
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m22786[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/md/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://172.30.240.1:[1m5173[22m/md/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.1.10:[1m5173[22m/md/[39m
+  ➜  Vue DevTools: Open http://localhost:5173/md/__devtools__/ as a separate window
+  ➜  Vue DevTools: Press Alt(⌥)+Shift(⇧)+D in App to toggle the Vue DevTools
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+
+[1m[33mwarn[39m[22m - You have enabled experimental features: [33moptimizeUniversalDefaults[39m
+[1m[33mwarn[39m[22m - Experimental features in Tailwind CSS are not covered by semver, may introduce breaking changes, and can change at any time.
+[2m02:42:53[22m [33m[1m[vite][22m[39m [33mwarning: rollup-plugin-inject: failed to parse E:/kerwin/Personal/AI自媒体全能工具/2_code/node_modules/.pnpm/codemirror@5.65.21/node_modules/codemirror/lib/codemirror.css. Consider restricting the plugin to particular files via options.include[39m
+  Plugin: [35minject[39m
+  File: [36mE:/kerwin/Personal/AI自媒体全能工具/2_code/node_modules/.pnpm/codemirror@5.65.21/node_modules/codemirror/lib/codemirror.css[39m
+[2m02:43:15[22m [36m[1m[vite][22m[39m [32m✨ new dependencies optimized: [33mnode:timers/promises[32m[39m
+[2m02:43:15[22m [36m[1m[vite][22m[39m [32m✨ optimized dependencies changed. reloading[39m
+[2m02:45:55[22m [33m[1m[vite][22m[39m [33mwarning: rollup-plugin-inject: failed to parse E:/kerwin/Personal/AI自媒体全能工具/2_code/node_modules/.pnpm/codemirror@5.65.21/node_modules/codemirror/lib/codemirror.css. Consider restricting the plugin to particular files via options.include[39m
+  Plugin: [35minject[39m
+  File: [36mE:/kerwin/Personal/AI自媒体全能工具/2_code/node_modules/.pnpm/codemirror@5.65.21/node_modules/codemirror/lib/codemirror.css[39m
+[2m23:30:16[22m [36m[1m[vite][22m[39m changed tsconfig file detected: E:\kerwin\Personal\AI自媒体全能工具\2_code\upstream\wx-editor\tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mvite.config.ts changed, restarting server...[39m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mtailwind.config.cjs[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.vue, /src/assets/index.css, /src/App.vue?vue&type=style&index=0&lang.less[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/main.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/vite-env.d.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Favicon.vue, /src/assets/index.css, /src/components/Favicon.vue?vue&type=style&index=0&scoped=13601e83&lang.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/FormItem.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/AIAssistant.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/AIChatExportImageDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/AIChatPanel.vue, /src/assets/index.css, /src/components/CodemirrorEditor/AIChatPanel.vue?vue&type=style&index=0&scoped=980a8a8f&lang.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/AIInputDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/CssEditor.vue, /src/assets/index.css, /src/components/CodemirrorEditor/CssEditor.vue?vue&type=style&index=0&scoped=d4302899&lang.less[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/CssRewriteDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/InsertFormDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/PostSlider.vue, /src/assets/index.css, /src/components/CodemirrorEditor/PostSlider.vue?vue&type=style&index=0&scoped=18cbed86&lang.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/PromptManager.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/RewriteDialog.vue, /src/assets/index.css, /src/components/CodemirrorEditor/RewriteDialog.vue?vue&type=style&index=0&scoped=544d4e8c&lang.less[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/RightSlider.vue, /src/assets/index.css, /src/components/CodemirrorEditor/RightSlider.vue?vue&type=style&index=0&scoped=d9933494&lang.less[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/SearchPanel.vue, /src/assets/index.css, /src/components/CodemirrorEditor/SearchPanel.vue?vue&type=style&index=0&lang.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/ShareModePanel.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/CodemirrorEditor/UploadImgDialog.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/WechatMaterialLibrary.vue, /src/assets/index.css, /src/components/CodemirrorEditor/WechatMaterialLibrary.vue?vue&type=style&index=0&scoped=29423f7e&lang.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/WechatMaterialLibraryDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/AboutDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/AIDropdown.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/AISwitchBox.vue, /src/assets/index.css, /src/components/CodemirrorEditor/EditorHeader/AISwitchBox.vue?vue&type=style&index=0&scoped=9444b2d3&lang.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/ContactAuthorDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/DonationDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/CodemirrorEditor/EditorHeader/EditDropdown.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/ExportImageDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/FileDropdown.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/HelpDropdown.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/ImportWechatDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/index.vue, /src/assets/index.css, /src/components/CodemirrorEditor/EditorHeader/index.vue?vue&type=style&index=0&scoped=8e23b934&lang.less[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/MarkdownTemplateDialog.vue, /src/assets/index.css, /src/components/CodemirrorEditor/EditorHeader/MarkdownTemplateDialog.vue?vue&type=style&index=0&scoped=8d133274&lang.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/PlatformPublishDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/PlatformReviewDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/PostInfo.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/CodemirrorEditor/EditorHeader/PostTaskDialog.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/StyleDropdown.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/StyleOptionMenu.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/WechatConfigDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/WechatDropdown.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/CodemirrorEditor/EditorHeader/WechatPublishDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/alert/Alert.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/alert/AlertDescription.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/alert/AlertTitle.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/alert/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/button/Button.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/assets/index.css, /src/components/ui/alert-dialog/AlertDialogCancel.vue, /src/components/ui/alert-dialog/AlertDialogAction.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/alert-dialog/AlertDialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/alert-dialog/AlertDialogAction.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/alert-dialog/AlertDialogCancel.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/alert-dialog/AlertDialogContent.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/alert-dialog/AlertDialogDescription.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/alert-dialog/AlertDialogFooter.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/alert-dialog/AlertDialogHeader.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/alert-dialog/AlertDialogTitle.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/alert-dialog/AlertDialogTrigger.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/alert-dialog/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dialog/Dialog.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dialog/DialogClose.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dialog/DialogContent.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dialog/DialogDescription.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dialog/DialogFooter.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dialog/DialogHeader.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dialog/DialogScrollContent.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dialog/DialogTitle.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dialog/DialogTrigger.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/dialog/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenu.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenuCheckboxItem.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenuContent.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenuGroup.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenuItem.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenuLabel.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/context-menu/ContextMenuPortal.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenuRadioGroup.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenuRadioItem.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenuSeparator.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenuShortcut.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenuSub.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenuSubContent.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenuSubTrigger.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/context-menu/ContextMenuTrigger.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/context-menu/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dropdown-menu/DropdownMenu.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/dropdown-menu/DropdownMenuCheckboxItem.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dropdown-menu/DropdownMenuContent.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/dropdown-menu/DropdownMenuGroup.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dropdown-menu/DropdownMenuItem.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/dropdown-menu/DropdownMenuLabel.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/dropdown-menu/DropdownMenuRadioGroup.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/dropdown-menu/DropdownMenuRadioItem.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/dropdown-menu/DropdownMenuSeparator.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dropdown-menu/DropdownMenuShortcut.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/dropdown-menu/DropdownMenuSub.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/dropdown-menu/DropdownMenuSubContent.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/dropdown-menu/DropdownMenuSubTrigger.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/dropdown-menu/DropdownMenuTrigger.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/dropdown-menu/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/hover-card/HoverCard.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/hover-card/HoverCardContent.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/hover-card/HoverCardTrigger.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/hover-card/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/input/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/input/Input.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/label/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/label/Label.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/number-field/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/number-field/NumberField.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/number-field/NumberFieldContent.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/number-field/NumberFieldDecrement.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/number-field/NumberFieldIncrement.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/number-field/NumberFieldInput.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/menubar/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/Menubar.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarCheckboxItem.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarContent.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarGroup.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarItem.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarLabel.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarMenu.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarRadioGroup.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarRadioItem.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarSeparator.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarShortcut.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarSub.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarSubContent.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarSubTrigger.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/menubar/MenubarTrigger.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/popover/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/popover/Popover.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/popover/PopoverContent.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/popover/PopoverTrigger.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/progress/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/progress/Progress.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/assets/index.css, /src/components/ui/select/SelectContent.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/select/Select.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/select/SelectContent.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/select/SelectGroup.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/select/SelectItem.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/select/SelectItemText.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/select/SelectLabel.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/select/SelectScrollDownButton.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/select/SelectScrollUpButton.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/select/SelectSeparator.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/select/SelectTrigger.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/select/SelectValue.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/separator/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/separator/Separator.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/radio-group/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/radio-group/RadioGroup.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/radio-group/RadioGroupItem.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/sonner/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/sonner/Sonner.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/switch/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/switch/Switch.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/tabs/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/tabs/Tabs.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/tabs/TabsContent.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/tabs/TabsList.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/tabs/TabsTrigger.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/textarea/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/textarea/Textarea.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/tooltip/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/tooltip/Tooltip.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/tooltip/TooltipContent.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/tooltip/TooltipProvider.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/tooltip/TooltipTrigger.vue, /src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/assets/index.css[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/assets/example/markdown.md[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/assets/example/theme-css.txt[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/assets/images/alipay.png[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/assets/images/wx-3.png[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/assets/images/wx-4.png[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/assets/images/wxpay.png[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/CodemirrorEditor.vue?vue&type=style&index=0&scoped=2616ca0e&lang.less[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/assets/less/theme.less[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/CodemirrorEditor.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/CodemirrorEditor.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/CodemirrorEditor.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/CodemirrorEditor.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/config/platformWorkflowConfig.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/config/style.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/config/theme.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/utils.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/CodemirrorEditor.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/services/platformWorkflow.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/CodemirrorEditor.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/CodemirrorEditor.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/templates/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/templates/advanced/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/templates/basic/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/templates/charts/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/templates/contentStyles/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/templates/imageContent/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/templates/layout/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/templates/wechat/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/templates/titleStyles/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/types/assets.d.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/types/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/types/post.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/CodemirrorEditor.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/utils/htmlCleaner.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/utils/htmlFormatter.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/utils/htmlToMarkdown.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/utils/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/utils/indexedDB.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/utils/MDAlert.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/utils/MDKatex.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/utils/mermaidRenderer.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/utils/nvidiaConfig.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/utils/renderer.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/CodemirrorEditor.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/utils/tokenTools.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/utils/wechatConfig.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/CodemirrorEditor.vue[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/utils/toast/index.ts[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/views/CodemirrorEditor.vue, /src/views/CodemirrorEditor.vue?vue&type=style&index=0&scoped=2616ca0e&lang.less, /src/views/CodemirrorEditor.vue?vue&type=style&index=1&scoped=2616ca0e&lang.less[22m
+[2m23:30:17[22m [36m[1m[vite][22m[39m server restarted.
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://172.30.240.1:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.1.10:[1m5173[22m/[39m
+[33m(!) Could not auto-determine entry point from rollupOptions or html files and there are no explicit optimizeDeps.include patterns. Skipping dependency pre-bundling.[39m
+The system cannot find the path specified.
+E:\kerwin\Personal\AI自媒体全能工具\2_code\upstream\wx-editor:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  md@1.6.0 dev: `vite --host`
+Exit status 1
+ WARN   Local package.json exists, but node_modules missing, did you mean to install?
