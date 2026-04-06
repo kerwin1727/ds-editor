@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>demo</title>
+    ${links}
+  </head>
+  <body>
+    <!-- header -->
+    <div class="header">
+      <div class="modules-wrapper">
+        <ul class="module-group left">
+          <div class="dropdown dropdown-image">
+            <div class="dropdown-toggle">
+              <button class="module-item">
+                图片<i class="icon-arrow"></i>
+              </button>
+            </div>
+            <div class="dropdown-menu">
+              <div class="menu-item">
+                本地图片<input
+                  id="image_uploader"
+                  type="file"
+                  accept="image/bmp, image/png, image/jpeg, image/jpg, image/gif, image/webp"
+                />
+              </div>
+              <div class="menu-item">
+                <div id="image_link">图片链接</div>
+              </div>
+            </div>
+          </div>
+          <button class="module-item video">视频</button>
+          <button class="module-item link">超链接</button>
+        </ul>
+        <ul class="module-group main">
+          <button class="module-item weapp">小程序</button>
+          <button class="module-item disabled">音媒体</button>
+          <button class="module-item disabled">模板</button>
+          <button class="module-item disabled">视频号</button>
+          <button class="module-item disabled">公众号</button>
+        </ul>
+      </div>
+    </div>
+    <!-- toolbar -->
+    <div class="toolbar-wrapper">
+      <div id="toolbar">
+        <div class="btn-group">
+          <button class="edit-btn undo">
+            <svg><use href="#undo" /></svg>
+          </button>
+          <button class="edit-btn redo">
+            <svg><use href="#redo" /></svg>
+          </button>
+        </div>
+        <div class="btn-group">
+          <button class="edit-btn clear">
+            <svg><use href="#clear-format" /></svg>
+          </button>
+          <button class="edit-btn painter">
+            <svg><use href="#brush" /></svg>
+          </button>
+        </div>
+        <div class="btn-group">
+          <div class="dropdown dropdown-size edit-btn">
+            <button class="dropdown-toggle">
+              <span class="size">17px</span>
+              <i class="icon-arrow"></i>
+            </button>
+            <div class="dropdown-menu">
+              <div class="menu-item" data-size="12px" style="font-size: 12px">
+                12px
+              </div>
+              <div class="menu-item" data-size="14px" style="font-size: 14px">
+                14px
+              </div>
+              <div class="menu-item" data-size="15px" style="font-size: 15px">
+                15px
+              </div>
+              <div class="menu-item" data-size="16px" style="font-size: 16px">
+                16px
+              </div>
+              <div class="menu-item" data-size="17px" style="font-size: 17px">
+                17px
+              </div>
+              <div class="menu-item" data-size="18px" style="font-size: 18px">
+                18px
+              </div>
+              <div class="menu-item" data-size="20px" style="font-size: 20px">
+                20px
+              </div>
+              <div class="menu-item" data-size="24px" style="font-size: 24px">
+                24px
+              </div>
+            </div>
+          </div>
+          <button class="edit-btn bold">
+            <svg><use href="#bold" /></svg>
+          </button>
+          <button class="edit-btn italic">
+            <svg><use href="#italic" /></svg>
+          </button>
+          <button class="edit-btn underline">
+            <svg><use href="#underline" /></svg>
+          </button>
+          <button class="edit-btn strike">
+            <svg><use href="#strike" /></svg>
+          </button>
+          <button class="edit-btn picker color-picker">
+            <svg><use href="#font" /></svg>
+            <i class="colorlump"></i>
+          </button>
+          <button class="edit-btn picker highlight-picker">
+            <svg><use href="#highlight" /></svg>
+            <i class="colorlump"></i>
+          </button>
+        </div>
+        <div class="btn-group">
+          <div class="dropdown dropdown-align edit-btn">
+            <button class="dropdown-toggle">
+              <svg style="color: #07c160"><use href="#justify" /></svg>
+              <i class="icon-arrow"></i>
+            </button>
+            <div class="dropdown-menu">
+              <div class="menu-item" data-align="left">
+                <svg><use href="#left" /></svg>左对齐
+              </div>
+              <div class="menu-item" data-align="center">
+                <svg><use href="#center" /></svg>居中对齐
+              </div>
+              <div class="menu-item" data-align="right">
+                <svg><use href="#right" /></svg>右对齐
+              </div>
+              <div class="menu-item" data-align="justify">
+                <svg><use href="#justify" /></svg>两端对齐
+              </div>
+            </div>
+          </div>
+          <div class="dropdown dropdown-topRowSpacing edit-btn">
+            <button class="dropdown-toggle">
+              <svg><use href="#rowSpacingTop" /></svg>
+              <i class="icon-arrow"></i>
+            </button>
+            <div class="dropdown-menu">
+              <div class="menu-item active" data-value="0px">0（默认）</div>
+              <div class="menu-item" data-value="8px">8</div>
+              <div class="menu-item" data-value="16px">16</div>
+              <div class="menu-item" data-value="24px">24</div>
+              <div class="menu-item" data-value="32px">32</div>
+              <div class="menu-item" data-value="40px">40</div>
+              <div class="menu-item" data-value="48px">48</div>
+            </div>
+          </div>
+          <div class="dropdown dropdown-bottomRowSpacing edit-btn">
+            <button class="dropdown-toggle">
+              <svg><use href="#rowSpacingBottom" /></svg>
+              <i class="icon-arrow"></i>
+            </button>
+            <div class="dropdown-menu">
+              <div class="menu-item" data-value="0px">0</div>
+              <div class="menu-item" data-value="8px">8</div>
+              <div class="menu-item" data-value="16px">16</div>
+              <div class="menu-item active" data-value="24px">24（默认）</div>
+              <div class="menu-item" data-value="32px">32</div>
+              <div class="menu-item" data-value="40px">40</div>
+              <div class="menu-item" data-value="48px">48</div>
+            </div>
+          </div>
+          <div class="dropdown dropdown-lineHeight edit-btn">
+            <button class="dropdown-toggle">
+              <svg><use href="#lineHeight" /></svg>
+              <i class="icon-arrow"></i>
+            </button>
+            <div class="dropdown-menu">
+              <div class="menu-item" data-value="1em">1</div>
+              <div class="menu-item" data-value="1.5em">1.5</div>
+              <div class="menu-item active" data-value="1.6em">1.6（默认）</div>
+              <div class="menu-item" data-value="1.75em">1.75</div>
+              <div class="menu-item" data-value="2em">2</div>
+              <div class="menu-item" data-value="3em">3</div>
+              <div class="menu-item" data-value="4em">4</div>
+              <div class="menu-item" data-value="5em">5</div>
+            </div>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="edit-btn divider">
+            <svg><use href="#divider" /></svg>
+          </button>
+          <div class="dropdown dropdown-list edit-btn">
+            <button class="dropdown-toggle">
+              <svg><use href="#list" /></svg>
+              <i class="icon-arrow"></i>
+            </button>
+            <div class="dropdown-menu">
+              <div
+                class="menu-item"
+                data-list-type="bulletList"
+                data-list-style-type="circle"
+              >
+                ○ 大圆圈
+              </div>
+              <div
+                class="menu-item"
+                data-list-type="bulletList"
+                data-list-style-type="disc"
+              >
+                ● 小黑点
+              </div>
+              <div
+                class="menu-item"
+                data-list-type="bulletList"
+                data-list-style-type="square"
+              >
+                ■ 小方块
+              </div>
+              <div
+                class="menu-item"
+                data-list-type="orderedList"
+                data-list-style-type="decimal"
+              >
+                1,2,3...
+              </div>
+              <div
+                class="menu-item"
+                data-list-type="orderedList"
+                data-list-style-type="lower-alpha"
+              >
+                a,b,c...
+              </div>
+              <div
+                class="menu-item"
+                data-list-type="orderedList"
+                data-list-style-type="lower-roman"
+              >
+                i,ii,iii...
+              </div>
+              <div
+                class="menu-item"
+                data-list-type="orderedList"
+                data-list-style-type="upper-alpha"
+              >
+                A,B,C...
+              </div>
+              <div
+                class="menu-item"
+                data-list-type="orderedList"
+                data-list-style-type="upper-roman"
+              >
+                I,II,III...
+              </div>
+            </div>
+          </div>
+          <div class="dropdown dropdown-float edit-btn">
+            <button class="dropdown-toggle">
+              <svg><use href="#floatLeft" /></svg>
+              <i class="icon-arrow"></i>
+            </button>
+            <div class="dropdown-menu">
+              <div class="menu-item" data-float="default">
+                <svg><use href="#floatLeft" /></svg>默认
+              </div>
+              <div class="menu-item" data-float="left">
+                <svg><use href="#floatLeft" /></svg>左浮动
+              </div>
+              <div class="menu-item" data-float="right">
+                <svg><use href="#floatRight" /></svg>右浮动
+              </div>
+            </div>
+          </div>
+          <button class="edit-btn code">
+            <svg><use href="#code" /></svg>
+          </button>
+          <div class="dropdown dropdown-emoji edit-btn">
+            <button class="dropdown-toggle">
+              <svg><use href="#emoji" /></svg>
+            </button>
+            <div class="dropdown-menu">
+              <div class="emoji-list"></div>
+            </div>
+          </div>
+        </div>
+        <div class="btn-group block-tools-group" style="display: none">
+          <button class="edit-btn block-action-btn block-align-left-trigger" title="左对齐选中的块">
+            <svg><use href="#left" /></svg>
+          </button>
+          <button class="edit-btn block-action-btn block-align-center-trigger" title="居中选中的块">
+            <svg><use href="#center" /></svg>
+          </button>
+          <button class="edit-btn block-action-btn block-align-right-trigger" title="右对齐选中的块">
+            <svg><use href="#right" /></svg>
+          </button>
+          <button class="edit-btn block-action-btn block-distribute-vertical-trigger" title="垂直等间距分布">
+            <svg><use href="#lineHeight" /></svg>
+          </button>
+          <button class="edit-btn block-action-btn block-equal-width-trigger" title="等宽选中的块">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="6" width="12" height="4" rx="1.2" />
+              <rect x="6" y="14" width="12" height="4" rx="1.2" />
+              <path d="M4 12H20" />
+              <path d="M8 10L4 12L8 14" />
+              <path d="M16 10L20 12L16 14" />
+            </svg>
+          </button>
+          <button class="edit-btn block-action-btn block-reset-layout-trigger" title="重置选中块布局">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6V10H16" />
+              <path d="M20 10A8 8 0 1 1 13 4.5" />
+              <path d="M12 8V12L15 14" />
+            </svg>
+          </button>
+          <button class="edit-btn block-action-btn block-move-up-trigger" title="上移选中的块">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 18V6" />
+              <path d="M7 11L12 6L17 11" />
+            </svg>
+          </button>
+          <button class="edit-btn block-action-btn block-move-down-trigger" title="下移选中的块">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 6V18" />
+              <path d="M7 13L12 18L17 13" />
+            </svg>
+          </button>
+          <button class="edit-btn block-action-btn block-duplicate-trigger" title="复制选中的块">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="10" height="10" rx="1.5" />
+              <rect x="5" y="5" width="10" height="10" rx="1.5" />
+            </svg>
+          </button>
+          <button class="edit-btn block-action-btn block-delete-trigger" title="删除选中的块">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 7H20" />
+              <path d="M9 7V5H15V7" />
+              <path d="M7 7L8 19H16L17 7" />
+              <path d="M10 11V16" />
+              <path d="M14 11V16" />
+            </svg>
+          </button>
+          <button class="edit-btn block-action-btn block-group-trigger" title="组合选中的块">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="4" width="6" height="6" rx="1.2" />
+              <rect x="14" y="4" width="6" height="6" rx="1.2" />
+              <rect x="4" y="14" width="6" height="6" rx="1.2" />
+              <rect x="14" y="14" width="6" height="6" rx="1.2" />
+            </svg>
+          </button>
+          <button class="edit-btn block-action-btn block-ungroup-trigger" title="解组当前组合块">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="6" width="7" height="7" rx="1.2" />
+              <rect x="13" y="11" width="7" height="7" rx="1.2" />
+              <path d="M5 19L19 5" />
+            </svg>
+          </button>
+          <button class="edit-btn block-action-btn block-group-name-trigger" title="命名当前组合块">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 6H14" />
+              <path d="M4 12H12" />
+              <path d="M4 18H10" />
+              <path d="M15 16L19.2 11.8A1.6 1.6 0 0 1 21.5 14.1L17.3 18.3L14.5 19.1Z" />
+            </svg>
+          </button>
+          <button class="edit-btn block-action-btn block-group-collapse-trigger" title="折叠或展开组合块">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="5" width="16" height="14" rx="2" />
+              <path d="M8 10L12 14L16 10" />
+            </svg>
+          </button>
+          <button class="edit-btn block-action-btn block-fine-mode-trigger" title="细粒度编辑模式（风险保护）">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3L19 6V11C19 15.5 16.3 19 12 21C7.7 19 5 15.5 5 11V6Z" />
+              <circle cx="12" cy="12" r="2.2" />
+              <path d="M12 8V5.5" />
+              <path d="M12 18.5V16" />
+              <path d="M8 12H5.5" />
+              <path d="M18.5 12H16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- sidebar -->
+    <div class="sidebar">
+      <div class="tabs">
+        <div class="tabs-nav">
+          <div class="tab-item" data-name="graphic">图文素材</div>
+          <div class="tab-item" data-name="resource">资源库</div>
+        </div>
+        <div class="tabs-content">
+          <div class="tab-pane" data-id="graphic">
+            <div class="graphic-list"></div>
+          </div>
+          <div class="tab-pane" data-id="resource">
+            <div class="resource-library">
+              <div class="resource-toolbar">
+                <div class="resource-scope-tabs">
+                  <button type="button" class="scope-btn active" data-scope="public">公共资源库</button>
+                  <button type="button" class="scope-btn" data-scope="mine">我的上传</button>
+                  <button type="button" class="scope-btn" data-scope="favorite">我的收藏</button>
+                </div>
+                <div class="resource-auth-bar">
+                  <span class="resource-auth-status">未登录</span>
+                  <button type="button" class="resource-login-btn">登录</button>
+                  <button type="button" class="resource-logout-btn" style="display:none">退出</button>
+                </div>
+                <div class="resource-filters">
+                  <input class="resource-search-input" type="text" placeholder="搜索资源标题或内容" />
+                  <select class="resource-type-select">
+                    <option value="all">全部类型</option>
+                    <option value="title">标题</option>
+                    <option value="graphic">图文</option>
+                    <option value="template">模板</option>
+                    <option value="section">片段</option>
+                    <option value="other">其他</option>
+                  </select>
+                  <button type="button" class="resource-refresh-btn">刷新</button>
+                </div>
+              </div>
+              <div class="resource-list"></div>
+              <div class="resource-empty" style="display:none">暂无匹配资源</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- editor -->
+    <div class="editor-wrapper">
+      <div class="editor-container">
+        <div class="editor" style="font-size: 17px"></div>
+        <div class="footer">
+          <div class="info">
+            <!-- <div class="save-time">20:23&emsp;已保存</div> -->
+            <div>正文字数 <span class="word-count">0</span></div>
+          </div>
+          <div class="operation">
+            <div class="btn btn-preview">预览</div>
+            <div class="btn btn-save-template">保存模板</div>
+            <div
+              class="btn btn-copy"
+              data-clipboard-target=".tiptap.ProseMirror"
+            >
+              一键复制
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- modal -->
+    <div id="video_modal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <div class="modal-title">插入视频</div>
+          <button type="button" class="btn-close">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="tabs">
+            <div class="tabs-nav">
+              <div class="tab-item" data-name="local">本地文件</div>
+              <div class="tab-item" data-name="link">视频链接</div>
+            </div>
+            <div class="tabs-content">
+              <div class="tab-pane" data-id="local">
+                <div style="display: flex; align-items: center">
+                  <input
+                    id="video_uploader"
+                    type="file"
+                    accept="video/mp4, video/ogg, video/webm"
+                  />
+                  <label for="video_uploader" class="btn-upload-video">
+                    上传视频
+                  </label>
+                  <div class="filename"></div>
+                </div>
+                <div class="tip">
+                  注：公众号文章不支持直接上传视频（请自行上传到官方公众号平台素材库），此处仅用于模拟预览
+                </div>
+              </div>
+              <div class="tab-pane" data-id="link">
+                <div class="form-item">
+                  <input
+                    id="video_link"
+                    type="text"
+                    placeholder="请输入腾讯视频链接"
+                  />
+                </div>
+                <div class="tip">
+                  注：公众号文章仅支持直接插入腾讯视频链接（部分视频受版权限制）
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-save">确定</button>
+          <button type="button" class="btn btn-close">取消</button>
+        </div>
+      </div>
+    </div>
+    <div id="link_modal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <div class="modal-title">插入链接</div>
+          <button type="button" class="btn-close">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="tabs">
+            <div class="tabs-nav">
+              <div class="tab-item" data-name="text">文字展示</div>
+              <div class="tab-item" data-name="picture">图片展示</div>
+            </div>
+            <div class="tabs-content">
+              <div class="tab-pane" data-id="text">
+                <div class="form-item">
+                  <label>链接标题</label>
+                  <input
+                    class="link-title"
+                    type="text"
+                    placeholder="请输入链接标题"
+                  />
+                </div>
+              </div>
+              <div class="tab-pane" data-id="picture">
+                <div class="form-item">
+                  <label for="link_picture_uploader"> 选择图片 </label>
+                  <input
+                    id="link_picture_uploader"
+                    type="file"
+                    accept="image/png,image/bmp,image/jpg,image/gif"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-item">
+              <label>文章链接</label>
+              <input
+                class="link-url"
+                type="text"
+                placeholder="请输入http://或https://开头的公众号文章链接"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-save">确定</button>
+          <button type="button" class="btn btn-close">取消</button>
+        </div>
+      </div>
+    </div>
+    <div id="weapp_modal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <div class="modal-title">插入小程序</div>
+          <button type="button" class="btn-close">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="tabs">
+            <div class="tabs-nav">
+              <div class="tab-item" data-name="text">文字展示</div>
+              <div class="tab-item" data-name="picture">图片展示</div>
+            </div>
+            <div class="tabs-content">
+              <div class="tab-pane" data-id="text">
+                <div class="form-item">
+                  <label>文字标题</label>
+                  <input
+                    class="weapp-title"
+                    type="text"
+                    placeholder="请输入链接标题"
+                  />
+                </div>
+              </div>
+              <div class="tab-pane" data-id="picture">
+                <div class="form-item">
+                  <label for="weapp_picture_uploader"> 选择图片 </label>
+                  <input
+                    id="weapp_picture_uploader"
+                    type="file"
+                    accept="image/png,image/bmp,image/jpg,image/gif"
+                  />
+                </div>
+              </div>
+              <div class="form-item">
+                <label>小程序名称</label>
+                <input class="weapp-name" type="text" placeholder="xxxx" />
+              </div>
+              <div class="form-item">
+                <label>小程序AppID</label>
+                <input
+                  class="weapp-appid"
+                  type="text"
+                  placeholder="wxdxxxxxxxxxxxxxxx"
+                />
+              </div>
+              <div class="form-item">
+                <label>小程序页面路径</label>
+                <input
+                  class="weapp-path"
+                  type="text"
+                  placeholder="pages/index/index"
+                />
+              </div>
+              <div class="tip">
+                <a
+                  href="https://www.135editor.com/books/chapter/1/366"
+                  target="_blank"
+                >
+                  获取教程
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-save">确定</button>
+          <button type="button" class="btn btn-close">取消</button>
+        </div>
+      </div>
+    </div>
+    <!-- bundle will be injected -->
+    ${scripts}
+  </body>
+</html>

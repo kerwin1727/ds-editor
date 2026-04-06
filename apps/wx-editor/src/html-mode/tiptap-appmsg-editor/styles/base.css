@@ -1,0 +1,38 @@
+html,
+body {
+  width: 100%;
+  min-width: 1400px;
+  height: 100%;
+  color: #353535;
+  font-size: 14px;
+  overflow: auto;
+}
+
+body {
+  background-color: #F5F5F5;
+}
+
+button {
+  border: none;
+  font-size: 14px;
+  background-color: unset;
+}
+
+svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: bottom;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c4c4c4;
+  border-radius: 3px;
+}
