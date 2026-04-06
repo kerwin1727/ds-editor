@@ -6,7 +6,6 @@ import AIDropdown from '@/components/CodemirrorEditor/EditorHeader/AIDropdown.vu
 import ExportImageDialog from '@/components/CodemirrorEditor/EditorHeader/ExportImageDialog.vue'
 import HelpDropdown from '@/components/CodemirrorEditor/EditorHeader/HelpDropdown.vue'
 import WechatDropdown from '@/components/CodemirrorEditor/EditorHeader/WechatDropdown.vue'
-import Favicon from '@/components/Favicon.vue'
 import { Toaster } from '@/components/ui/sonner'
 import {
   altSign,
