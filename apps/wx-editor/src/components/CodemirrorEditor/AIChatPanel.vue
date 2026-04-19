@@ -68,7 +68,7 @@ const isEmbedded = computed(() => props.embedded ?? false)
 const panelContainerClass = computed(() => {
   return isEmbedded.value
     ? 'relative h-full min-h-0 w-full overflow-hidden'
-    : 'fixed inset-0 z-50'
+    : 'fixed inset-0 z-[300]'
 })
 
 const sessionSidebarClass = computed(() => {
