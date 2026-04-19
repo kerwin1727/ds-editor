@@ -506,10 +506,36 @@
 }
 
 .sidebar .tabs-content {
-  overflow: auto;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
   color: rgba(0, 0, 0, 0.9);
   font-size: 17px;
   line-height: 1.6;
+}
+
+.sidebar .tabs-content .tab-pane {
+  min-height: 0;
+}
+
+.sidebar .tabs-content .tab-pane.active {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.sidebar .tabs-content .tab-pane[data-id="graphic"],
+.sidebar .tabs-content .tab-pane[data-id="resource"] {
+  overflow: hidden;
+}
+
+.sidebar .html-mode-ai-chat-root,
+.sidebar .html-mode-ai-chat-pane {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
 }
 
 .sidebar .tabs-content * {
@@ -535,7 +561,8 @@
 .sidebar .resource-library {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 160px);
+  min-height: 0;
+  height: 100%;
 }
 
 .sidebar .resource-toolbar {
@@ -640,10 +667,12 @@
 
 .sidebar .resource-list {
   display: grid;
+  flex: 1;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   align-content: start;
   padding: 10px;
+  overflow: auto;
 }
 
 .sidebar .resource-empty {

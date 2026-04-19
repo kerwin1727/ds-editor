@@ -11,10 +11,12 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { cancelAIRequest, streamAIContent } from '@/services/ai'
 import { buildChatAttachmentContext, CHAT_ATTACHMENT_ACCEPT, parseChatAttachment, type ParsedChatAttachment } from '@/services/chatAttachment'
+import { useAIStore } from '@/stores'
 import { chatDB, type ChatAttachmentRef, type ChatMessage, type ChatSession } from '@/utils/indexedDB'
 
 const props = defineProps<{
   show: boolean
+  embedded?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -25,6 +27,8 @@ const emit = defineEmits<{
   'insertContent': [content: string]
   'clearCitations': []
 }>()
+
+const aiStore = useAIStore()
 
 type PendingAttachmentStatus = 'parsing' | 'ready' | 'error'
 
@@ -39,7 +43,7 @@ const currentSessionId = ref<string | null>(null)
 const prompt = ref('')
 const generating = ref(false)
 const waitingForAIResponse = ref(false)
-const sidebarCollapsed = ref(false)
+const sidebarCollapsed = ref(!!props.embedded)
 const copiedMessageId = ref<string | null>(null)
 const insertionButtonEnabled = ref(true)
 const editingMessageId = ref<string | null>(null)
@@ -54,9 +58,32 @@ const showVideoComposer = ref(false)
 const showArticleVideoComposer = ref(false)
 const pendingAttachments = ref<PendingAttachmentItem[]>([])
 const attachmentUploading = ref(false)
+const aiConfigNotificationTimeout = ref<number | null>(null)
 
 const mainInputRef = ref<any>(null)
 const attachmentInputRef = ref<HTMLInputElement | null>(null)
+
+const isEmbedded = computed(() => props.embedded ?? false)
+
+const panelContainerClass = computed(() => {
+  return isEmbedded.value
+    ? 'relative h-full min-h-0 w-full overflow-hidden'
+    : 'fixed inset-0 z-50'
+})
+
+const sessionSidebarClass = computed(() => {
+  if (isEmbedded.value) {
+    return sidebarCollapsed.value
+      ? 'pointer-events-none absolute inset-y-0 left-0 z-20 w-0 overflow-hidden border-r-0 bg-background opacity-0'
+      : 'absolute inset-y-0 left-0 z-20 w-[240px] overflow-hidden border-r bg-background shadow-xl'
+  }
+
+  return sidebarCollapsed.value
+    ? 'w-0 overflow-hidden border-r-0'
+    : 'w-64 border-r'
+})
+
+const panelTitle = computed(() => (isEmbedded.value ? 'AI助手' : 'AI 智能助手'))
 
 // 计算属性
 const currentSession = computed(() => {
@@ -138,6 +165,35 @@ function stopAIRequest() {
     generating.value = false
     waitingForAIResponse.value = false
   }
+}
+
+function openAISettings() {
+  aiStore.settingsDialogVisible = true
+}
+
+function hasAIConfiguration() {
+  const activeConfiguration = aiStore.activeConfiguration
+  return !!(
+    activeConfiguration?.apiKey?.trim()
+    && activeConfiguration?.apiDomain?.trim()
+    && activeConfiguration?.model?.trim()
+  )
+}
+
+function ensureAIConfiguration() {
+  if (hasAIConfiguration()) {
+    return true
+  }
+
+  if (!aiConfigNotificationTimeout.value) {
+    toast.error('请先配置AI助手')
+    aiConfigNotificationTimeout.value = window.setTimeout(() => {
+      aiConfigNotificationTimeout.value = null
+    }, 2000)
+  }
+
+  openAISettings()
+  return false
 }
 
 function revokeSessionAttachmentOpenUrls(session: ChatSession) {
@@ -373,6 +429,10 @@ async function sendMessage() {
     return
   }
 
+  if (!ensureAIConfiguration()) {
+    return
+  }
+
   if (!currentSessionId.value) {
     const newSession: ChatSession = {
       id: `session-${Date.now()}`,
@@ -567,6 +627,10 @@ async function saveEditedMessage() {
     return
 
   const editedMessage = session.messages[messageIndex]
+  if (editedMessage.role === 'user' && !ensureAIConfiguration()) {
+    return
+  }
+
   editedMessage.content = prompt.value || editingMessageContent.value
   session.updatedAt = Date.now()
   await saveSessions()
@@ -590,6 +654,10 @@ async function regenerateResponseForEditedMessage(
   messageIndex: number,
   editedMessage: ChatMessage,
 ) {
+  if (!ensureAIConfiguration()) {
+    return
+  }
+
   let aiMessageIndex = -1
   if (messageIndex + 1 < session.messages.length) {
     const nextMessage = session.messages[messageIndex + 1]
@@ -724,6 +792,10 @@ async function regenerateAIResponse(message: ChatMessage) {
     return
 
   const userMessage = session.messages[userMessageIndex]
+
+  if (!ensureAIConfiguration()) {
+    return
+  }
 
   generating.value = true
   waitingForAIResponse.value = true
@@ -1119,17 +1191,21 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
+  if (aiConfigNotificationTimeout.value) {
+    window.clearTimeout(aiConfigNotificationTimeout.value)
+    aiConfigNotificationTimeout.value = null
+  }
   clearPendingAttachments()
   sessions.value.forEach(session => revokeSessionAttachmentOpenUrls(session))
 })
 </script>
 
 <template>
-  <div v-if="showPanel" class="ai-chat-panel bg-background fixed inset-0 z-50 flex">
+  <div v-if="showPanel" class="ai-chat-panel bg-background flex" :class="panelContainerClass">
     <!-- 侧边栏 -->
     <div
-      class="sidebar flex flex-col border-r transition-all duration-300"
-      :class="sidebarCollapsed ? 'w-0 overflow-hidden' : 'w-64'"
+      class="chat-session-sidebar flex flex-col transition-all duration-300"
+      :class="sessionSidebarClass"
     >
       <!-- 侧边栏头部 -->
       <div class="flex items-center justify-between border-b p-3">
@@ -1167,7 +1243,7 @@ onUnmounted(() => {
     <!-- 主内容区域 -->
     <div class="min-h-0 flex flex-1 flex-col">
       <!-- 顶部工具栏 -->
-      <div class="flex shrink-0 items-center justify-between border-b p-3">
+      <div class="flex shrink-0 items-center justify-between gap-2 border-b p-3" :class="isEmbedded ? 'flex-wrap' : ''">
         <div class="flex items-center gap-2">
           <Button
             v-if="sidebarCollapsed" variant="ghost" size="sm" class="h-8 w-8 p-0"
@@ -1175,20 +1251,26 @@ onUnmounted(() => {
           >
             <Menu class="h-4 w-4" />
           </Button>
-          <span class="font-semibold">AI 智能助手</span>
+          <span class="font-semibold">{{ panelTitle }}</span>
         </div>
-        <div class="flex items-center gap-2">
-          <Button :variant="showVideoComposer ? 'secondary' : 'ghost'" size="sm" @click="toggleVideoComposerPanel">
+        <div class="flex items-center gap-2" :class="isEmbedded ? 'ml-auto max-w-full flex-wrap justify-end' : ''">
+          <Button v-if="isEmbedded" variant="ghost" size="sm" class="h-8 w-8 p-0" @click="createNewSession">
+            <Plus class="h-4 w-4" />
+          </Button>
+          <Button v-if="isEmbedded" variant="ghost" size="sm" @click="openAISettings">
+            AI配置
+          </Button>
+          <Button v-if="!isEmbedded" :variant="showVideoComposer ? 'secondary' : 'ghost'" size="sm" @click="toggleVideoComposerPanel">
             视频转文
           </Button>
-          <Button :variant="showArticleVideoComposer ? 'secondary' : 'ghost'" size="sm" @click="toggleArticleVideoComposerPanel">
+          <Button v-if="!isEmbedded" :variant="showArticleVideoComposer ? 'secondary' : 'ghost'" size="sm" @click="toggleArticleVideoComposerPanel">
             文转视频
           </Button>
           <Button variant="ghost" size="sm" @click="showPromptManager = true">
             <Sparkles class="mr-1 h-4 w-4" />
             提示词
           </Button>
-          <Button variant="ghost" size="sm" class="h-8 w-8 p-0" @click="emit('close')">
+          <Button v-if="!isEmbedded" variant="ghost" size="sm" class="h-8 w-8 p-0" @click="emit('close')">
             <X class="h-4 w-4" />
           </Button>
         </div>
@@ -1218,7 +1300,7 @@ onUnmounted(() => {
             >
 
             <!-- 用户消息 -->
-            <div v-if="message.role === 'user'" class="max-w-[80%] flex flex-row-reverse items-start gap-3">
+            <div v-if="message.role === 'user'" class="chat-message-group max-w-[80%] flex flex-row-reverse items-start gap-3">
               <div class="bg-secondary h-8 w-8 flex flex-shrink-0 items-center justify-center rounded-full">
                 <User class="h-4 w-4" />
               </div>
@@ -1284,7 +1366,7 @@ onUnmounted(() => {
             </div>
 
             <!-- AI 消息 -->
-            <div v-else class="max-w-[80%] flex items-start gap-3">
+            <div v-else class="chat-message-group max-w-[80%] flex items-start gap-3">
               <div class="bg-secondary h-8 w-8 flex flex-shrink-0 items-center justify-center rounded-full">
                 <Bot class="h-4 w-4" />
               </div>
@@ -1547,5 +1629,9 @@ onUnmounted(() => {
 
 .animate-bounce {
   animation: bounce 1s infinite;
+}
+
+.chat-message-group {
+  max-width: 80%;
 }
 </style>

@@ -1,11 +1,6 @@
 import { Tabs } from "../plugins/tabs";
-import editor from "./editor";
-import customTemplate from "../templates/custom.html?raw";
-import noTemplate from "../templates/No.html?raw";
-import titleTemplate from "../templates/title.html?raw";
-import textTemplate from "../templates/text.html?raw";
-import graphicTemplate from "../templates/graphic.html?raw";
-import fullTemplate from "../templates/template.html?raw";
+import { mountHtmlModeAIChatPane } from "./ai-chat-pane";
+import { insertHtmlModeContent } from "./insert-content";
 
 const RESOURCE_UPLOAD_REQUEST_EVENT = "wx-editor:resource-upload-request";
 const RESOURCE_SAVE_TEMPLATE_EVENT = "wx-editor:resource-save-template-request";
@@ -21,15 +16,6 @@ const RESOURCE_TYPE_LABEL_MAP = {
   section: "片段",
   other: "其他",
 };
-
-const graphicList = [
-  customTemplate,
-  noTemplate,
-  titleTemplate,
-  textTemplate,
-  graphicTemplate,
-  fullTemplate,
-];
 
 const $sidebarTabs = document.querySelector(".sidebar .tabs");
 const tabs = new Tabs({ el: $sidebarTabs, activated: "graphic" });
@@ -69,7 +55,7 @@ let pendingUploadPayload = null;
 let uploadModal = null;
 let previewScaleFrame = 0;
 
-renderGraphicList();
+mountHtmlModeAIChatPane();
 rehydrateAuth();
 bindResourceLibraryEvents();
 tabs.on("change", () => {
@@ -127,62 +113,6 @@ async function apiRequest(path, options = {}) {
   }
 
   return payload;
-}
-
-function renderGraphicList() {
-  const $graphicList = document.querySelector(".sidebar .graphic-list");
-  if (!$graphicList) return;
-
-  $graphicList.innerHTML = "";
-  graphicList.forEach((html) => {
-    const item = document.createElement("div");
-    item.className = "graphic-item";
-    item.innerHTML = html;
-    item.addEventListener("click", () => handleInsert(html));
-    $graphicList.appendChild(item);
-  });
-}
-
-function handleInsert(html) {
-  const normalizedHtml = normalizeTemplateAlignment(html);
-  editor
-    .chain()
-    .focus()
-    .insertContent(normalizedHtml, {
-      parseOptions: {
-        preserveWhitespace: false,
-      },
-    })
-    .run();
-}
-
-function normalizeTemplateAlignment(html) {
-  const container = document.createElement("div");
-  container.innerHTML = html;
-
-  const centeredSections = container.querySelectorAll(
-    'section[style*="text-align: center"], section[align="center"], section[align="middle"]'
-  );
-
-  centeredSections.forEach((section) => {
-    section.querySelectorAll("p[style]").forEach((p) => {
-      const styleText = p.getAttribute("style") || "";
-      const cleanedStyle = styleText
-        .split(";")
-        .map((item) => item.trim())
-        .filter(Boolean)
-        .filter((item) => !item.toLowerCase().startsWith("text-align"))
-        .join("; ");
-
-      if (cleanedStyle) {
-        p.setAttribute("style", cleanedStyle);
-      } else {
-        p.removeAttribute("style");
-      }
-    });
-  });
-
-  return container.innerHTML;
 }
 
 function readJsonStorage(key, fallbackValue) {
@@ -772,20 +702,9 @@ function applyResourceToEditor(item) {
     return;
   }
 
-  const normalizedHtml = normalizeTemplateAlignment(resourceHtml);
-  if (item.type === "template") {
-    editor.commands.clearContent();
-  }
-
-  editor
-    .chain()
-    .focus()
-    .insertContent(normalizedHtml, {
-      parseOptions: {
-        preserveWhitespace: false,
-      },
-    })
-    .run();
+  insertHtmlModeContent(resourceHtml, {
+    replaceAll: item.type === "template",
+  });
 
   notify("资源已应用到编辑区", "success");
 }
