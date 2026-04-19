@@ -12,6 +12,214 @@ const MIN_SECTION_WIDTH = 160;
 const ADVANCED_MODE_EVENT = "wx-editor:advanced-block-tools-toggle";
 const ADVANCED_MODE_FLAG_KEY = "__WX_EDITOR_ADVANCED_BLOCK_TOOLS__";
 const RESOURCE_UPLOAD_REQUEST_EVENT = "wx-editor:resource-upload-request";
+const STYLE_INSPECTOR_COLLAPSED_STORAGE_KEY =
+  "wx-editor:style-inspector-collapsed";
+const INTERNAL_STYLE_KEYS = new Set([
+  GROUP_FLAG_KEY,
+  GROUP_NAME_KEY,
+  GROUP_COLLAPSED_KEY,
+]);
+const STYLE_INSPECTOR_FIELDS = [
+  {
+    key: "width",
+    label: "宽度",
+    placeholder: "320px / 100%",
+  },
+  {
+    key: "max-width",
+    label: "最大宽度",
+    placeholder: "100% / 560px",
+  },
+  {
+    key: "font-size",
+    label: "字号",
+    placeholder: "16px",
+  },
+  {
+    key: "line-height",
+    label: "行高",
+    placeholder: "1.6 / 24px",
+  },
+  {
+    key: "color",
+    label: "文字色",
+    placeholder: "#333333 / rgba(...)",
+    colorPicker: true,
+    pickerFallback: "#333333",
+  },
+  {
+    key: "background-color",
+    label: "背景色",
+    placeholder: "#ffffff / transparent",
+    colorPicker: true,
+    pickerFallback: "#ffffff",
+  },
+  {
+    key: "border-radius",
+    label: "圆角",
+    placeholder: "12px",
+  },
+  {
+    key: "text-align",
+    label: "文本对齐",
+    control: "select",
+    options: [
+      { value: "", label: "默认" },
+      { value: "left", label: "左对齐" },
+      { value: "center", label: "居中" },
+      { value: "right", label: "右对齐" },
+      { value: "justify", label: "两端对齐" },
+    ],
+  },
+  {
+    key: "margin-top",
+    label: "上边距",
+    placeholder: "12px",
+  },
+  {
+    key: "margin-right",
+    label: "右边距",
+    placeholder: "auto / 16px",
+  },
+  {
+    key: "margin-bottom",
+    label: "下边距",
+    placeholder: "24px",
+  },
+  {
+    key: "margin-left",
+    label: "左边距",
+    placeholder: "auto / 0px",
+  },
+  {
+    key: "padding-top",
+    label: "上内边距",
+    placeholder: "16px",
+  },
+  {
+    key: "padding-right",
+    label: "右内边距",
+    placeholder: "16px",
+  },
+  {
+    key: "padding-bottom",
+    label: "下内边距",
+    placeholder: "16px",
+  },
+  {
+    key: "padding-left",
+    label: "左内边距",
+    placeholder: "16px",
+  },
+];
+const STYLE_SOURCE_HINT_RULES = [
+  {
+    key: "background",
+    label: "背景",
+    aliases: ["background-color", "background"],
+  },
+  {
+    key: "color",
+    label: "文字色",
+    aliases: ["color"],
+  },
+  {
+    key: "border-radius",
+    label: "圆角",
+    aliases: ["border-radius"],
+    skipZero: true,
+  },
+  {
+    key: "padding",
+    label: "内边距",
+    aliases: [
+      "padding",
+      "padding-top",
+      "padding-right",
+      "padding-bottom",
+      "padding-left",
+    ],
+    skipZero: true,
+  },
+];
+const STYLE_SOURCE_NODE_LABELS = {
+  section: "片段",
+  paragraph: "段落",
+  heading: "标题",
+  blockquote: "引用",
+  bulletList: "无序列表",
+  orderedList: "有序列表",
+  listItem: "列表项",
+  codeBlock: "代码块",
+  horizontalRule: "分隔线",
+  image: "图片",
+  video: "视频",
+  iframe: "嵌入内容",
+};
+
+function renderStyleInspectorField(field) {
+  const baseAttributes = `data-style-key="${field.key}"`;
+  const label = `<label class="wx-style-inspector-label" for="wx-style-field-${field.key}">${field.label}</label>`;
+
+  if (field.control === "select") {
+    const options = (field.options || [])
+      .map(
+        (option) => `<option value="${option.value}">${option.label}</option>`
+      )
+      .join("");
+
+    return `
+      <div class="wx-style-inspector-field">
+        ${label}
+        <select
+          id="wx-style-field-${field.key}"
+          class="wx-style-inspector-input"
+          ${baseAttributes}
+        >
+          ${options}
+        </select>
+      </div>
+    `;
+  }
+
+  if (field.colorPicker) {
+    return `
+      <div class="wx-style-inspector-field">
+        ${label}
+        <div class="wx-style-inspector-color-control">
+          <input
+            id="wx-style-field-${field.key}"
+            class="wx-style-inspector-input wx-style-inspector-color-text"
+            type="text"
+            placeholder="${field.placeholder || ""}"
+            ${baseAttributes}
+          />
+          <input
+            class="wx-style-inspector-color-picker"
+            type="color"
+            value="${field.pickerFallback || "#000000"}"
+            data-style-color-picker="${field.key}"
+            aria-label="选择${field.label}"
+            title="选择${field.label}"
+          />
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="wx-style-inspector-field">
+      ${label}
+      <input
+        id="wx-style-field-${field.key}"
+        class="wx-style-inspector-input"
+        type="text"
+        placeholder="${field.placeholder || ""}"
+        ${baseAttributes}
+      />
+    </div>
+  `;
+}
 
 const editorElement = editor.options.element;
 const editorRoot = editor.view?.dom;
@@ -33,6 +241,9 @@ if (!editorElement || !editorRoot) {
   let fineParentGroupDom = null;
   let groupDropTargetIndex = null;
   let lastContextMenuPayload = null;
+  let styleInspectorCollapsed =
+    typeof window !== "undefined" &&
+    window.localStorage.getItem(STYLE_INSPECTOR_COLLAPSED_STORAGE_KEY) === "1";
 
   const groupButton = document.querySelector("#toolbar .block-group-trigger");
   const ungroupButton = document.querySelector(
@@ -74,6 +285,7 @@ if (!editorElement || !editorRoot) {
   );
   const deleteButton = document.querySelector("#toolbar .block-delete-trigger");
   const blockToolsGroup = document.querySelector("#toolbar .block-tools-group");
+  const toolbarWrapper = document.querySelector(".toolbar-wrapper");
   let selectionCountBadge = null;
   let shortcutHint = null;
 
@@ -137,6 +349,170 @@ if (!editorElement || !editorRoot) {
     </button>
   `;
 
+  const styleInspectorHost =
+    editorElement.closest(".html-mode-main") ||
+    editorElement.closest(".editor-wrapper") ||
+    editorElement.parentElement;
+  const styleInspectorControlsHost = document.querySelector(".html-mode-controls");
+  const styleInspector = document.createElement("aside");
+  styleInspector.className = "wx-block-style-inspector";
+  styleInspector.style.display = "none";
+  styleInspector.innerHTML = `
+    <div class="wx-style-inspector-panel">
+      <div class="wx-style-inspector-header">
+        <div class="wx-style-inspector-header-main">
+          <div class="wx-style-inspector-kicker">选中元素样式</div>
+          <div class="wx-style-inspector-title">未选中元素</div>
+          <div class="wx-style-inspector-meta">
+            选择顶层块，或在细粒度模式下按住 Alt 点击内部区块。
+          </div>
+        </div>
+        <div class="wx-style-inspector-header-actions">
+          <span class="wx-style-inspector-badge">待选择</span>
+          <button
+            type="button"
+            class="wx-style-inspector-icon-btn"
+            data-style-inspector-toggle="collapse"
+            aria-label="折叠样式面板"
+            title="折叠样式面板"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M15 5L8 12L15 19"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="wx-style-inspector-body">
+        <div class="wx-style-inspector-empty">
+          高级功能已开启。当前没有可编辑的选中元素。
+        </div>
+        <div class="wx-style-inspector-form" style="display:none">
+          <div class="wx-style-inspector-note">
+            留空后失焦会清除当前字段。多选时，新值会批量覆盖到所有可编辑块。
+          </div>
+          <div class="wx-style-inspector-sources" style="display:none">
+            <div class="wx-style-inspector-sources-title">子级样式来源</div>
+            <div class="wx-style-inspector-source-list"></div>
+          </div>
+          <div class="wx-style-inspector-grid">
+            ${STYLE_INSPECTOR_FIELDS.map((field) =>
+              renderStyleInspectorField(field)
+            ).join("")}
+          </div>
+          <div class="wx-style-inspector-field wx-style-inspector-field-wide">
+            <label class="wx-style-inspector-label" for="wx-style-raw-input">原始样式</label>
+            <textarea
+              id="wx-style-raw-input"
+              class="wx-style-inspector-textarea"
+              placeholder="display: flex; gap: 12px; background-color: #ffffff;"
+              data-style-raw="1"
+            ></textarea>
+          </div>
+          <div class="wx-style-inspector-actions">
+            <button type="button" class="wx-style-inspector-btn" data-style-action="apply-raw">
+              应用原始样式
+            </button>
+            <button type="button" class="wx-style-inspector-btn wx-style-inspector-btn-secondary" data-style-action="reset-visible">
+              清空可见样式
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      type="button"
+      class="wx-style-inspector-fab"
+      data-style-inspector-toggle="expand"
+      aria-label="展开样式面板"
+      title="展开样式面板"
+      data-tooltip="展开样式面板"
+    >
+      <span class="wx-style-inspector-fab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M4 7.5C4 6.67 4.67 6 5.5 6H18.5C19.33 6 20 6.67 20 7.5V16.5C20 17.33 19.33 18 18.5 18H5.5C4.67 18 4 17.33 4 16.5V7.5Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          />
+          <path
+            d="M9 6V18"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+          <path
+            d="M13 9.5L16.5 12L13 14.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
+    </button>
+  `;
+  const styleInspectorTitle = styleInspector.querySelector(
+    ".wx-style-inspector-title"
+  );
+  const styleInspectorMeta = styleInspector.querySelector(
+    ".wx-style-inspector-meta"
+  );
+  const styleInspectorBadge = styleInspector.querySelector(
+    ".wx-style-inspector-badge"
+  );
+  const styleInspectorEmpty = styleInspector.querySelector(
+    ".wx-style-inspector-empty"
+  );
+  const styleInspectorForm = styleInspector.querySelector(
+    ".wx-style-inspector-form"
+  );
+  const styleInspectorSources = styleInspector.querySelector(
+    ".wx-style-inspector-sources"
+  );
+  const styleInspectorSourceList = styleInspector.querySelector(
+    ".wx-style-inspector-source-list"
+  );
+  const styleInspectorRawInput = styleInspector.querySelector("[data-style-raw]");
+  const styleInspectorApplyRawButton = styleInspector.querySelector(
+    '[data-style-action="apply-raw"]'
+  );
+  const styleInspectorResetButton = styleInspector.querySelector(
+    '[data-style-action="reset-visible"]'
+  );
+  const styleInspectorCollapseButton = styleInspector.querySelector(
+    '[data-style-inspector-toggle="collapse"]'
+  );
+  const styleInspectorExpandButton = styleInspector.querySelector(
+    '[data-style-inspector-toggle="expand"]'
+  );
+  const styleInspectorInputs = new Map();
+  const styleInspectorColorPickers = new Map();
+  STYLE_INSPECTOR_FIELDS.forEach((field) => {
+    const input = styleInspector.querySelector(
+      `[data-style-key="${field.key}"]`
+    );
+    if (input) {
+      styleInspectorInputs.set(field.key, input);
+    }
+    const colorPicker = styleInspector.querySelector(
+      `[data-style-color-picker="${field.key}"]`
+    );
+    if (colorPicker) {
+      styleInspectorColorPickers.set(field.key, colorPicker);
+    }
+  });
+  let styleInspectorSyncing = false;
+
   editorElement.appendChild(selectionLayer);
   editorElement.appendChild(dropIndicator);
   editorElement.appendChild(lassoBox);
@@ -144,6 +520,21 @@ if (!editorElement || !editorRoot) {
   editorElement.appendChild(groupDropTargetLayer);
   editorElement.appendChild(fineSelectionLayer);
   document.body.appendChild(selectionContextMenu);
+  if (styleInspectorHost instanceof HTMLElement) {
+    styleInspectorHost.appendChild(styleInspector);
+  }
+  if (
+    styleInspectorControlsHost instanceof HTMLElement &&
+    styleInspectorExpandButton instanceof HTMLElement
+  ) {
+    const nightToggleButton = styleInspectorControlsHost.querySelector(
+      ".night-toggle-btn"
+    );
+    styleInspectorControlsHost.insertBefore(
+      styleInspectorExpandButton,
+      nightToggleButton || null
+    );
+  }
 
   function ensureToolsMeta() {
     if (!blockToolsGroup || selectionCountBadge || shortcutHint) return;
@@ -161,6 +552,7 @@ if (!editorElement || !editorRoot) {
     meta.appendChild(selectionCountBadge);
     meta.appendChild(shortcutHint);
     blockToolsGroup.appendChild(meta);
+    scheduleBlockToolsScrollableStateUpdate();
   }
 
   function setButtonsDisabled(disabled) {
@@ -179,6 +571,54 @@ if (!editorElement || !editorRoot) {
     if (groupNameButton) groupNameButton.disabled = disabled;
     if (groupCollapseButton) groupCollapseButton.disabled = disabled;
     if (fineModeButton) fineModeButton.disabled = disabled;
+  }
+
+  function updateBlockToolsScrollableState() {
+    if (!(blockToolsGroup instanceof HTMLElement)) return;
+
+    if (!advancedEnabled || blockToolsGroup.style.display === "none") {
+      blockToolsGroup.classList.remove("is-scrollable");
+      blockToolsGroup.scrollLeft = 0;
+      return;
+    }
+
+    blockToolsGroup.classList.remove("is-scrollable");
+    const availableWidth = blockToolsGroup.getBoundingClientRect().width;
+    const isScrollable = blockToolsGroup.scrollWidth > availableWidth + 1;
+
+    if (isScrollable) {
+      blockToolsGroup.classList.add("is-scrollable");
+      return;
+    }
+
+    blockToolsGroup.scrollLeft = 0;
+  }
+
+  function scheduleBlockToolsScrollableStateUpdate() {
+    window.requestAnimationFrame(updateBlockToolsScrollableState);
+  }
+
+  function handleBlockToolsWheel(event) {
+    if (!(blockToolsGroup instanceof HTMLElement)) return;
+
+    const maxScrollLeft =
+      blockToolsGroup.scrollWidth - blockToolsGroup.clientWidth;
+    if (maxScrollLeft <= 0) return;
+
+    const delta =
+      Math.abs(event.deltaX) > Math.abs(event.deltaY)
+        ? event.deltaX
+        : event.deltaY;
+    if (!delta) return;
+
+    const nextScrollLeft = Math.max(
+      0,
+      Math.min(maxScrollLeft, blockToolsGroup.scrollLeft + delta)
+    );
+
+    if (nextScrollLeft === blockToolsGroup.scrollLeft) return;
+    event.preventDefault();
+    blockToolsGroup.scrollLeft = nextScrollLeft;
   }
 
   function clearSelectionArtifacts() {
@@ -218,9 +658,13 @@ if (!editorElement || !editorRoot) {
     window[ADVANCED_MODE_FLAG_KEY] = advancedEnabled;
     editorRoot.classList.toggle("is-block-tools-enabled", advancedEnabled);
     editorRoot.classList.toggle("is-fine-mode", advancedEnabled && fineModeEnabled);
+    if (toolbarWrapper instanceof HTMLElement) {
+      toolbarWrapper.classList.toggle("is-advanced-enabled", advancedEnabled);
+    }
 
     if (blockToolsGroup) {
       blockToolsGroup.style.display = advancedEnabled ? "flex" : "none";
+      scheduleBlockToolsScrollableStateUpdate();
     }
 
     if (!advancedEnabled) {
@@ -238,7 +682,7 @@ if (!editorElement || !editorRoot) {
       resizeState = null;
       clearSelectionArtifacts();
       applyGroupPresentation();
-      setButtonsDisabled(true);
+      syncActionButtons();
       return;
     }
 
@@ -389,6 +833,673 @@ if (!editorElement || !editorRoot) {
       .join("; ");
   }
 
+  function nodeSupportsStyle(node) {
+    return !!(
+      node &&
+      node.attrs &&
+      Object.prototype.hasOwnProperty.call(node.attrs, "style")
+    );
+  }
+
+  function nodeCanBeFineSelected(node) {
+    return !!(node && node.isBlock && nodeSupportsStyle(node));
+  }
+
+  function getDisplayStyleMap(styleMap) {
+    const displayMap = new Map();
+    styleMap.forEach((value, key) => {
+      if (INTERNAL_STYLE_KEYS.has(key)) return;
+      displayMap.set(key, value);
+    });
+    return displayMap;
+  }
+
+  function replaceDisplayStyles(targetStyleMap, nextDisplayStyleMap) {
+    const internalEntries = [];
+    targetStyleMap.forEach((value, key) => {
+      if (INTERNAL_STYLE_KEYS.has(key)) {
+        internalEntries.push([key, value]);
+      }
+    });
+
+    targetStyleMap.clear();
+    internalEntries.forEach(([key, value]) => {
+      targetStyleMap.set(key, value);
+    });
+    nextDisplayStyleMap.forEach((value, key) => {
+      if (!value) return;
+      targetStyleMap.set(key, value);
+    });
+  }
+
+  function styleMapsEqual(left, right) {
+    if (left.size !== right.size) return false;
+    for (const [key, value] of left.entries()) {
+      if (right.get(key) !== value) return false;
+    }
+    return true;
+  }
+
+  function setStyleInspectorCollapsed(collapsed) {
+    styleInspectorCollapsed = !!collapsed;
+
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(
+        STYLE_INSPECTOR_COLLAPSED_STORAGE_KEY,
+        styleInspectorCollapsed ? "1" : "0"
+      );
+    }
+
+    syncStyleInspector();
+  }
+
+  function normalizeCssInputValue(property, rawValue) {
+    const value = String(rawValue || "").trim();
+    if (!value) return "";
+
+    const numericPattern = /^-?\d+(?:\.\d+)?$/;
+    if (!numericPattern.test(value)) {
+      return value;
+    }
+
+    if (property === "line-height") {
+      return value;
+    }
+
+    return `${value}px`;
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function toHexChannel(value) {
+    const nextValue = Math.max(0, Math.min(255, Number(value) || 0));
+    return nextValue.toString(16).padStart(2, "0");
+  }
+
+  function rgbToHex(red, green, blue) {
+    return `#${toHexChannel(red)}${toHexChannel(green)}${toHexChannel(blue)}`;
+  }
+
+  function cssColorToHex(value) {
+    const rawValue = String(value || "").trim();
+    if (!rawValue) return null;
+
+    const normalizedValue = rawValue.toLowerCase();
+    if (
+      normalizedValue === "transparent" ||
+      normalizedValue === "currentcolor" ||
+      normalizedValue.includes("gradient(") ||
+      normalizedValue.startsWith("var(")
+    ) {
+      return null;
+    }
+
+    const shortHexMatch = normalizedValue.match(/^#([0-9a-f]{3,4})$/i);
+    if (shortHexMatch) {
+      const hex = shortHexMatch[1];
+      const alpha = hex.length === 4 ? hex[3] : "f";
+      if (alpha === "0") return null;
+      return `#${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}`;
+    }
+
+    const longHexMatch = normalizedValue.match(/^#([0-9a-f]{6})([0-9a-f]{2})?$/i);
+    if (longHexMatch) {
+      if (longHexMatch[2] === "00") return null;
+      return `#${longHexMatch[1]}`;
+    }
+
+    if (typeof document === "undefined") {
+      return null;
+    }
+
+    const probe = document.createElement("span");
+    probe.style.color = "";
+    probe.style.color = rawValue;
+    if (!probe.style.color) return null;
+
+    const mountTarget = document.body || document.documentElement;
+    if (!mountTarget) return null;
+    mountTarget.appendChild(probe);
+    const browserColor = window.getComputedStyle(probe).color;
+    probe.remove();
+
+    const match = browserColor.match(
+      /^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})(?:\s*,\s*([0-9.]+))?\s*\)$/i
+    );
+    if (!match) return null;
+
+    const alpha = match[4];
+    if (alpha !== undefined && Number.parseFloat(alpha) === 0) {
+      return null;
+    }
+
+    return rgbToHex(match[1], match[2], match[3]);
+  }
+
+  function syncColorPickerField(field, value, mixed) {
+    const colorPicker = styleInspectorColorPickers.get(field.key);
+    if (!(colorPicker instanceof HTMLInputElement)) return;
+
+    const resolvedColor = !mixed ? cssColorToHex(value) : null;
+    colorPicker.value =
+      resolvedColor || field.pickerFallback || colorPicker.value || "#000000";
+    colorPicker.dataset.mixed = mixed ? "1" : "0";
+    colorPicker.dataset.colorReady = resolvedColor ? "1" : "0";
+    colorPicker.title = mixed
+      ? "当前选区存在多个不同颜色，选色后会统一覆盖。"
+      : resolvedColor
+      ? `选择${field.label}`
+      : `当前值无法被选色器完整表达，选色后会覆盖为纯色。`;
+  }
+
+  function isZeroStyleSourceValue(value) {
+    const normalized = String(value || "")
+      .trim()
+      .replace(/\s+/g, " ");
+    if (!normalized) return true;
+    if (normalized.includes("(") || normalized.includes(",")) return false;
+    return normalized
+      .split(/[ /\t]+/)
+      .filter(Boolean)
+      .every((part) => /^0(?:\.0+)?(?:[a-z%]*)?$/i.test(part));
+  }
+
+  function getStyleSourceValue(styleMap, rule) {
+    for (const property of rule.aliases || []) {
+      const value = String(styleMap.get(property) || "").trim();
+      if (!value) continue;
+      if (rule.skipZero && isZeroStyleSourceValue(value)) continue;
+      return { property, value };
+    }
+    return null;
+  }
+
+  function formatStyleSourceValue(source) {
+    const value = String(source?.value || "")
+      .trim()
+      .replace(/\s+/g, " ");
+    const shortValue =
+      value.length > 42 ? `${value.slice(0, 39).trimEnd()}...` : value;
+    return `${source.property}: ${shortValue}`;
+  }
+
+  function getNodeLabel(node) {
+    const name = node?.type?.name || "node";
+    return STYLE_SOURCE_NODE_LABELS[name] || name;
+  }
+
+  function getInspectorTargetPath(target) {
+    if (Array.isArray(target?.path)) {
+      return [...target.path];
+    }
+    if (target?.mode === "top" && typeof target.index === "number") {
+      return [target.index];
+    }
+    return null;
+  }
+
+  function collectStyleSourceHints(inspectorState) {
+    const targets = inspectorState?.targets || [];
+    if (!inspectorState?.editable || targets.length !== 1) return [];
+
+    const target = targets[0];
+    const targetPath = getInspectorTargetPath(target);
+    if (!Array.isArray(targetPath) || !targetPath.length || !target.node) {
+      return [];
+    }
+
+    const targetElement = getDomByPath(targetPath);
+    if (!(targetElement instanceof HTMLElement)) return [];
+
+    const targetStyleMap = getDisplayStyleMap(
+      styleTextToMap(target.node.attrs?.style || "")
+    );
+    const missingRules = STYLE_SOURCE_HINT_RULES.filter(
+      (rule) => !getStyleSourceValue(targetStyleMap, rule)
+    );
+    if (!missingRules.length) return [];
+
+    const hints = new Map();
+    Array.from(targetElement.querySelectorAll("*")).forEach((element) => {
+      if (!(element instanceof HTMLElement)) return;
+
+      const path = getNodePathFromElement(element);
+      if (!Array.isArray(path) || path.length <= targetPath.length) return;
+
+      const node = getNodeByPath(path);
+      if (!nodeCanBeFineSelected(node)) return;
+
+      const styleMap = getDisplayStyleMap(
+        styleTextToMap(node.attrs?.style || "")
+      );
+      if (!styleMap.size) return;
+
+      missingRules.forEach((rule) => {
+        const source = getStyleSourceValue(styleMap, rule);
+        if (!source) return;
+
+        const depth = path.length - targetPath.length;
+        const current = hints.get(rule.key);
+        if (current && current.depth <= depth) return;
+
+        hints.set(rule.key, {
+          key: rule.key,
+          label: rule.label,
+          nodeLabel: getNodeLabel(node),
+          value: formatStyleSourceValue(source),
+          depth,
+          path: [...path],
+        });
+      });
+    });
+
+    return STYLE_SOURCE_HINT_RULES.map((rule) => hints.get(rule.key))
+      .filter(Boolean)
+      .slice(0, 4);
+  }
+
+  function clearStyleSourceHints() {
+    if (styleInspectorSources instanceof HTMLElement) {
+      styleInspectorSources.style.display = "none";
+    }
+    if (styleInspectorSourceList instanceof HTMLElement) {
+      styleInspectorSourceList.innerHTML = "";
+    }
+  }
+
+  function syncStyleSourceHints(inspectorState) {
+    if (
+      !(styleInspectorSources instanceof HTMLElement) ||
+      !(styleInspectorSourceList instanceof HTMLElement)
+    ) {
+      return;
+    }
+
+    const hints = collectStyleSourceHints(inspectorState);
+    if (!hints.length) {
+      clearStyleSourceHints();
+      return;
+    }
+
+    styleInspectorSourceList.innerHTML = hints
+      .map(
+        (hint) => `
+          <div class="wx-style-inspector-source-item">
+            <div class="wx-style-inspector-source-main">
+              <div class="wx-style-inspector-source-label">
+                ${escapeHtml(hint.label)} 来自子级${escapeHtml(hint.nodeLabel)}
+              </div>
+              <div class="wx-style-inspector-source-value" title="${escapeHtml(
+                hint.value
+              )}">
+                ${escapeHtml(hint.value)}
+              </div>
+            </div>
+            <button
+              type="button"
+              class="wx-style-inspector-source-jump"
+              data-style-source-jump="${hint.path.join(".")}"
+            >
+              定位
+            </button>
+          </div>
+        `
+      )
+      .join("");
+    styleInspectorSources.style.display = "block";
+  }
+
+  function parseStyleSourcePath(value) {
+    const parts = String(value || "")
+      .split(".")
+      .filter((part) => part !== "")
+      .map((part) => Number.parseInt(part, 10));
+    if (!parts.length || parts.some((part) => !Number.isInteger(part))) {
+      return null;
+    }
+    return parts;
+  }
+
+  function jumpToStyleSource(path) {
+    if (!advancedEnabled || !Array.isArray(path) || !path.length) return;
+
+    const node = getNodeByPath(path);
+    if (!nodeCanBeFineSelected(node)) {
+      toast("该子级节点已变化，请重新选择元素后再试", "info");
+      syncStyleInspector();
+      return;
+    }
+
+    const fineReady = fineModeEnabled || setFineModeEnabled(true);
+    if (!fineReady) return;
+
+    setFineSelectedPath(path);
+    const element = getDomByPath(path);
+    if (element instanceof HTMLElement) {
+      element.scrollIntoView({
+        block: "nearest",
+        inline: "nearest",
+        behavior: "smooth",
+      });
+    }
+  }
+
+  function getStyleInspectorState() {
+    if (!advancedEnabled) {
+      return {
+        visible: false,
+        editable: false,
+        title: "高级样式",
+        badge: "",
+        meta: "",
+        emptyText: "",
+        targets: [],
+      };
+    }
+
+    if (fineModeEnabled) {
+      const context = getFineSelectionContext();
+      if (!context) {
+        return {
+          visible: true,
+          editable: false,
+          title: "细粒度未选中",
+          badge: "细粒度",
+          meta: "按住 Alt 点击内部带样式区块后即可调整样式。",
+          emptyText: "当前还没有选中内部带样式区块。",
+          targets: [],
+        };
+      }
+
+      if (!nodeCanBeFineSelected(context.node)) {
+        return {
+          visible: true,
+          editable: false,
+          title: context.node.type.name,
+          badge: "细粒度",
+          meta: "当前节点不支持 style 属性编辑。",
+          emptyText: "请改选支持 style 的内部区块节点。",
+          targets: [],
+        };
+      }
+
+      return {
+        visible: true,
+        editable: true,
+        title: context.node.type.name,
+        badge: "细粒度",
+        meta: `路径 ${context.path.join(" > ")} · 当前为单个内部区块`,
+        emptyText: "",
+        targets: [
+          {
+            mode: "fine",
+            path: [...context.path],
+            node: context.node,
+          },
+        ],
+      };
+    }
+
+    const selected = getSortedSelectedIndexes();
+    if (!selected.length) {
+      return {
+        visible: true,
+        editable: false,
+        title: "未选中块",
+        badge: "顶层",
+        meta: "单击块进行样式编辑；多选时会批量覆盖同一属性。",
+        emptyText: "当前没有可编辑的顶层块。",
+        targets: [],
+      };
+    }
+
+    const blocks = getTopLevelNodes();
+    const rawTargets = selected
+      .map((index) => ({
+        mode: "top",
+        index,
+        path: [index],
+        node: blocks[index]?.node,
+      }))
+      .filter((item) => item.node);
+    const editableTargets = rawTargets.filter((item) =>
+      nodeSupportsStyle(item.node)
+    );
+    const skippedCount = rawTargets.length - editableTargets.length;
+
+    if (!editableTargets.length) {
+      return {
+        visible: true,
+        editable: false,
+        title: `${selected.length} 个块`,
+        badge: "顶层",
+        meta: "当前选区不支持 style 属性编辑。",
+        emptyText: "请改选支持 style 的块后再调整样式。",
+        targets: [],
+      };
+    }
+
+    if (editableTargets.length === 1) {
+      const target = editableTargets[0];
+      const metaPrefix = skippedCount
+        ? `已忽略 ${skippedCount} 个不支持样式的块`
+        : "当前为单个顶层块";
+      return {
+        visible: true,
+        editable: true,
+        title: target.node.type.name,
+        badge: "顶层",
+        meta: `${metaPrefix} · 第 ${target.index + 1} 块`,
+        emptyText: "",
+        targets: editableTargets,
+      };
+    }
+
+    return {
+      visible: true,
+      editable: true,
+      title: `${editableTargets.length} 个块`,
+      badge: "批量覆盖",
+      meta: skippedCount
+        ? `已忽略 ${skippedCount} 个不支持样式的块，新值将覆盖其余 ${editableTargets.length} 个块。`
+        : `新值将批量覆盖当前选中的 ${editableTargets.length} 个块。`,
+      emptyText: "",
+      targets: editableTargets,
+    };
+  }
+
+  function setStyleInspectorFieldValue(field, state) {
+    const input = styleInspectorInputs.get(field.key);
+    if (!input) return;
+
+    const mixed = !!state?.mixed;
+    const value = state?.value || "";
+    input.dataset.mixed = mixed ? "1" : "0";
+
+    if (input instanceof HTMLSelectElement) {
+      input.value = mixed ? "" : value;
+      input.title = mixed
+        ? "当前选区存在多个不同值，选择后会统一覆盖。"
+        : "";
+      return;
+    }
+
+    if (input instanceof HTMLInputElement) {
+      input.value = mixed ? "" : value;
+      input.placeholder = mixed
+        ? "多值，输入后批量覆盖"
+        : field.placeholder || "留空清除";
+      input.title = mixed
+        ? "当前选区存在多个不同值，输入后会统一覆盖。"
+        : "";
+      syncColorPickerField(field, value, mixed);
+    }
+  }
+
+  function syncStyleInspector() {
+    if (!(styleInspector instanceof HTMLElement)) return;
+
+    const inspectorState = getStyleInspectorState();
+    styleInspector.style.display = inspectorState.visible ? "block" : "none";
+    if (styleInspectorExpandButton instanceof HTMLButtonElement) {
+      styleInspectorExpandButton.style.display =
+        inspectorState.visible && styleInspectorCollapsed ? "inline-flex" : "none";
+    }
+
+    if (!inspectorState.visible) {
+      return;
+    }
+
+    if (styleInspectorTitle) {
+      styleInspectorTitle.textContent = inspectorState.title;
+    }
+    if (styleInspectorBadge) {
+      styleInspectorBadge.textContent = inspectorState.badge || "高级";
+    }
+    if (styleInspectorMeta) {
+      styleInspectorMeta.textContent = inspectorState.meta;
+    }
+    styleInspector.classList.toggle("is-collapsed", styleInspectorCollapsed);
+
+    const hasEditableSelection =
+      !!inspectorState.editable && (inspectorState.targets || []).length > 0;
+    if (styleInspectorExpandButton instanceof HTMLButtonElement) {
+      styleInspectorExpandButton.classList.toggle(
+        "is-active",
+        hasEditableSelection
+      );
+      styleInspectorExpandButton.title = hasEditableSelection
+        ? `展开样式面板（${inspectorState.title}）`
+        : "展开样式面板";
+      styleInspectorExpandButton.setAttribute(
+        "aria-label",
+        hasEditableSelection
+          ? `展开样式面板，当前 ${inspectorState.title}`
+          : "展开样式面板"
+      );
+    }
+    if (styleInspectorCollapseButton instanceof HTMLButtonElement) {
+      styleInspectorCollapseButton.title = "折叠样式面板";
+      styleInspectorCollapseButton.setAttribute(
+        "aria-label",
+        "折叠样式面板"
+      );
+    }
+
+    if (styleInspectorCollapsed) {
+      return;
+    }
+
+    const editableTargets = inspectorState.targets || [];
+    if (!inspectorState.editable || !editableTargets.length) {
+      clearStyleSourceHints();
+      if (styleInspectorEmpty) {
+        styleInspectorEmpty.textContent =
+          inspectorState.emptyText || "当前没有可编辑的选中元素。";
+        styleInspectorEmpty.style.display = "block";
+      }
+      if (styleInspectorForm) {
+        styleInspectorForm.style.display = "none";
+      }
+      return;
+    }
+
+    const displayStyleMaps = editableTargets.map((target) =>
+      getDisplayStyleMap(styleTextToMap(target.node.attrs?.style || ""))
+    );
+    const firstStyleMap = displayStyleMaps[0] || new Map();
+
+    styleInspectorSyncing = true;
+    STYLE_INSPECTOR_FIELDS.forEach((field) => {
+      const firstValue = firstStyleMap.get(field.key) || "";
+      const mixed = displayStyleMaps.some(
+        (styleMap) => (styleMap.get(field.key) || "") !== firstValue
+      );
+      setStyleInspectorFieldValue(field, {
+        value: firstValue,
+        mixed,
+      });
+    });
+
+    if (styleInspectorRawInput instanceof HTMLTextAreaElement) {
+      const rawMixed = displayStyleMaps.some(
+        (styleMap) => !styleMapsEqual(styleMap, firstStyleMap)
+      );
+      styleInspectorRawInput.value = rawMixed ? "" : styleMapToText(firstStyleMap);
+      styleInspectorRawInput.placeholder = rawMixed
+        ? "当前为多种样式，输入后将批量覆盖可见样式。"
+        : "display: flex; gap: 12px; background-color: #ffffff;";
+      styleInspectorRawInput.dataset.mixed = rawMixed ? "1" : "0";
+    }
+    syncStyleSourceHints(inspectorState);
+    styleInspectorSyncing = false;
+
+    if (styleInspectorEmpty) {
+      styleInspectorEmpty.style.display = "none";
+    }
+    if (styleInspectorForm) {
+      styleInspectorForm.style.display = "flex";
+    }
+  }
+
+  function applyStyleToCurrentTargets(styleUpdater) {
+    const inspectorState = getStyleInspectorState();
+    const targets = inspectorState.targets || [];
+    if (!inspectorState.editable || !targets.length) return;
+
+    if (targets[0].mode === "fine") {
+      const fineTarget = targets[0];
+      updateSectionStyleByPath(fineTarget.path, (styleMap) => {
+        styleUpdater(styleMap, fineTarget);
+      });
+      return;
+    }
+
+    const styleUpdaters = new Map();
+    targets.forEach((target) => {
+      styleUpdaters.set(target.index, (styleMap) => {
+        styleUpdater(styleMap, target);
+      });
+    });
+    updateSectionsStyleBatch(
+      styleUpdaters,
+      getSortedSelectedIndexes()
+    );
+  }
+
+  function applyInspectorFieldValue(property, rawValue) {
+    const nextValue = normalizeCssInputValue(property, rawValue);
+    applyStyleToCurrentTargets((styleMap) => {
+      if (!nextValue) {
+        styleMap.delete(property);
+        return;
+      }
+      styleMap.set(property, nextValue);
+    });
+  }
+
+  function applyInspectorRawStyles(rawStyleText) {
+    const nextDisplayStyleMap = getDisplayStyleMap(
+      styleTextToMap(String(rawStyleText || "").replace(/\r?\n+/g, "; "))
+    );
+    applyStyleToCurrentTargets((styleMap) => {
+      replaceDisplayStyles(styleMap, nextDisplayStyleMap);
+    });
+  }
+
+  function resetInspectorVisibleStyles() {
+    applyStyleToCurrentTargets((styleMap) => {
+      replaceDisplayStyles(styleMap, new Map());
+    });
+  }
+
   function normalizeGroupName(value) {
     const nextValue = String(value || "")
       .replace(/\s+/g, " ")
@@ -523,17 +1634,28 @@ if (!editorElement || !editorRoot) {
     return current === editorRoot ? path : null;
   }
 
-  function getSectionPathFromTarget(target) {
-    if (!(target instanceof HTMLElement)) return null;
-    const section = target.closest("section");
-    if (!(section instanceof HTMLElement) || !editorRoot.contains(section)) {
+  function getFineSelectablePathFromTarget(target) {
+    const startElement =
+      target instanceof HTMLElement
+        ? target
+        : target instanceof Node
+        ? target.parentElement
+        : null;
+    if (!(startElement instanceof HTMLElement) || !editorRoot.contains(startElement)) {
       return null;
     }
 
-    const path = getNodePathFromElement(section);
-    const node = getNodeByPath(path);
-    if (!node || node.type.name !== "section") return null;
-    return path;
+    let current = startElement;
+    while (current && current !== editorRoot) {
+      const path = getNodePathFromElement(current);
+      const node = getNodeByPath(path);
+      if (Array.isArray(path) && path.length > 1 && nodeCanBeFineSelected(node)) {
+        return path;
+      }
+      current = current.parentElement;
+    }
+
+    return null;
   }
 
   function expandMarginShorthand(value) {
@@ -621,7 +1743,11 @@ if (!editorElement || !editorRoot) {
 
     if (fineSelectionPath) {
       const node = getNodeByPath(fineSelectionPath);
-      if (!node || node.type.name !== "section") {
+      if (
+        !Array.isArray(fineSelectionPath) ||
+        fineSelectionPath.length <= 1 ||
+        !nodeCanBeFineSelected(node)
+      ) {
         fineSelectionPath = null;
       }
     }
@@ -630,7 +1756,13 @@ if (!editorElement || !editorRoot) {
   function getFineSelectedNode() {
     if (!fineModeEnabled || !fineSelectionPath) return null;
     const node = getNodeByPath(fineSelectionPath);
-    if (!node || node.type.name !== "section") return null;
+    if (
+      !Array.isArray(fineSelectionPath) ||
+      fineSelectionPath.length <= 1 ||
+      !nodeCanBeFineSelected(node)
+    ) {
+      return null;
+    }
     return node;
   }
 
@@ -780,7 +1912,11 @@ if (!editorElement || !editorRoot) {
     }
 
     const node = getNodeByPath(path);
-    if (!node || node.type.name !== "section") {
+    if (
+      !Array.isArray(path) ||
+      path.length <= 1 ||
+      !nodeCanBeFineSelected(node)
+    ) {
       fineSelectionPath = null;
       renderFineSelectionLayer();
       syncActionButtons();
@@ -916,6 +2052,7 @@ if (!editorElement || !editorRoot) {
     if (!advancedEnabled) {
       setButtonsDisabled(true);
       syncSelectionMeta([]);
+      syncStyleInspector();
       return;
     }
 
@@ -1023,6 +2160,7 @@ if (!editorElement || !editorRoot) {
     }
 
     syncSelectionMeta(selected);
+    syncStyleInspector();
   }
 
   function renderSelectionLayer() {
@@ -1154,7 +2292,7 @@ if (!editorElement || !editorRoot) {
 
     const nextNodes = blocks.map((item, index) => {
       const styleUpdater = styleUpdaters.get(index);
-      if (!styleUpdater || item.node.type.name !== "section") {
+      if (!styleUpdater || !nodeSupportsStyle(item.node)) {
         return item.node;
       }
 
@@ -1187,7 +2325,7 @@ if (!editorElement || !editorRoot) {
 
   function updateSectionStyleByPath(path, styleUpdater) {
     const targetNode = getNodeByPath(path);
-    if (!targetNode || targetNode.type.name !== "section") return;
+    if (!targetNode || !nodeSupportsStyle(targetNode)) return;
 
     const styleMap = styleTextToMap(targetNode.attrs?.style || "");
     const prevStyle = styleMapToText(styleMap);
@@ -2411,11 +3549,11 @@ if (!editorElement || !editorRoot) {
 
     if (fineModeEnabled) {
       if (event.altKey) {
-        const sectionPath = getSectionPathFromTarget(event.target);
-        if (sectionPath && sectionPath.length > 1) {
+        const finePath = getFineSelectablePathFromTarget(event.target);
+        if (finePath) {
           event.preventDefault();
           event.stopPropagation();
-          setFineSelectedPath(sectionPath);
+          setFineSelectedPath(finePath);
           return;
         }
 
@@ -2629,21 +3767,28 @@ if (!editorElement || !editorRoot) {
 
   function handleKeyDown(event) {
     if (!advancedEnabled) return;
-    if (event.key === "Escape") {
-      hideSelectionContextMenu();
-    }
-
     const useCommand = event.metaKey || event.ctrlKey;
     const key = event.key.toLowerCase();
     const target = event.target;
+    const isFormControlTarget =
+      target instanceof HTMLElement &&
+      !!target.closest("input, textarea, select, button");
     const isEditableTarget =
       target instanceof HTMLElement &&
       !!target.closest("[contenteditable='true']");
     const hasRangeSelection = !editor.state.selection.empty;
     const hasTextCursor = !!editor.state.selection.$cursor;
     const isEditingText = isEditableTarget && (hasRangeSelection || hasTextCursor);
+    const shouldBypassBlockShortcuts = isFormControlTarget || isEditingText;
     const hasFineSelection = !!getFineSelectedNode();
     const hasBlockSelection = selectedIndexes.size > 0;
+
+    if (key === "escape") {
+      hideSelectionContextMenu();
+      if (shouldBypassBlockShortcuts) {
+        return;
+      }
+    }
 
     if (key === "escape" && (hasBlockSelection || hasFineSelection)) {
       event.preventDefault();
@@ -2659,14 +3804,14 @@ if (!editorElement || !editorRoot) {
     ) {
       if (fineModeEnabled && !hasFineSelection) return;
       if (!fineModeEnabled && !hasBlockSelection) return;
-      if (isEditingText) return;
+      if (shouldBypassBlockShortcuts) return;
       event.preventDefault();
       moveSelectedByOffset(key === "arrowup" ? -1 : 1);
       return;
     }
 
     if (event.altKey && !useCommand && (hasBlockSelection || hasFineSelection)) {
-      if (isEditingText) return;
+      if (shouldBypassBlockShortcuts) return;
       if (key === "l") {
         event.preventDefault();
         alignSelectedBlocks("left");
@@ -2707,14 +3852,14 @@ if (!editorElement || !editorRoot) {
         key === "backspace" ||
         (event.altKey && key === "v")
       ) {
-        if (!isEditingText) {
+        if (!shouldBypassBlockShortcuts) {
           event.preventDefault();
         }
         return;
       }
 
       if (useCommand && event.shiftKey && key === "d" && hasFineSelection) {
-        if (isEditingText) return;
+        if (shouldBypassBlockShortcuts) return;
         event.preventDefault();
         duplicateSelectedBlocks();
         return;
@@ -2749,7 +3894,7 @@ if (!editorElement || !editorRoot) {
     }
 
     if ((key === "delete" || key === "backspace") && hasBlockSelection) {
-      if (isEditingText) {
+      if (shouldBypassBlockShortcuts) {
         return;
       }
 
@@ -2792,6 +3937,96 @@ if (!editorElement || !editorRoot) {
 
     hideSelectionContextMenu();
   });
+
+  styleInspectorInputs.forEach((input, property) => {
+    input.addEventListener("change", (event) => {
+      if (styleInspectorSyncing) return;
+      const target = event.currentTarget;
+      const value =
+        target instanceof HTMLInputElement || target instanceof HTMLSelectElement
+          ? target.value
+          : "";
+      applyInspectorFieldValue(property, value);
+    });
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter") return;
+      if (event.currentTarget instanceof HTMLSelectElement) return;
+      event.preventDefault();
+      event.currentTarget.blur();
+    });
+  });
+
+  styleInspectorColorPickers.forEach((input, property) => {
+    input.addEventListener("change", (event) => {
+      if (styleInspectorSyncing) return;
+      const target = event.currentTarget;
+      if (!(target instanceof HTMLInputElement)) return;
+      applyInspectorFieldValue(property, target.value);
+    });
+  });
+
+  if (styleInspectorApplyRawButton) {
+    styleInspectorApplyRawButton.addEventListener("click", () => {
+      if (styleInspectorRawInput instanceof HTMLTextAreaElement) {
+        if (
+          styleInspectorRawInput.dataset.mixed === "1" &&
+          !styleInspectorRawInput.value.trim()
+        ) {
+          toast("当前选区存在多种样式，请输入原始样式或使用清空按钮", "info");
+          return;
+        }
+        applyInspectorRawStyles(styleInspectorRawInput.value);
+      }
+    });
+  }
+
+  if (styleInspectorResetButton) {
+    styleInspectorResetButton.addEventListener("click", () => {
+      resetInspectorVisibleStyles();
+    });
+  }
+
+  if (styleInspectorCollapseButton) {
+    styleInspectorCollapseButton.addEventListener("click", () => {
+      setStyleInspectorCollapsed(true);
+    });
+  }
+
+  if (styleInspectorExpandButton) {
+    styleInspectorExpandButton.addEventListener("click", () => {
+      setStyleInspectorCollapsed(false);
+    });
+  }
+
+  if (styleInspectorSourceList) {
+    styleInspectorSourceList.addEventListener("click", (event) => {
+      const actionButton =
+        event.target instanceof Element
+          ? event.target.closest("[data-style-source-jump]")
+          : null;
+      if (!(actionButton instanceof HTMLElement)) return;
+
+      const path = parseStyleSourcePath(actionButton.dataset.styleSourceJump);
+      if (!path) return;
+      jumpToStyleSource(path);
+    });
+  }
+
+  if (styleInspectorRawInput instanceof HTMLTextAreaElement) {
+    styleInspectorRawInput.addEventListener("keydown", (event) => {
+      if (!(event.metaKey || event.ctrlKey) || event.key !== "Enter") return;
+      event.preventDefault();
+      if (
+        styleInspectorRawInput.dataset.mixed === "1" &&
+        !styleInspectorRawInput.value.trim()
+      ) {
+        toast("当前选区存在多种样式，请输入原始样式或使用清空按钮", "info");
+        return;
+      }
+      applyInspectorRawStyles(styleInspectorRawInput.value);
+    });
+  }
 
   if (moveUpButton) {
     moveUpButton.addEventListener("click", () => {
@@ -2898,6 +4133,12 @@ if (!editorElement || !editorRoot) {
     });
   }
 
+  if (blockToolsGroup instanceof HTMLElement) {
+    blockToolsGroup.addEventListener("wheel", handleBlockToolsWheel, {
+      passive: false,
+    });
+  }
+
   editorRoot.addEventListener("click", handleClick);
   editorElement.addEventListener("mousedown", handleMouseDown);
   editorElement.addEventListener("contextmenu", handleContextMenu);
@@ -2913,6 +4154,7 @@ if (!editorElement || !editorRoot) {
     hideSelectionContextMenu();
     renderSelectionLayer();
     renderFineSelectionLayer();
+    scheduleBlockToolsScrollableStateUpdate();
   });
 
   const editorWrapper = editorElement.closest(".editor-wrapper");
@@ -2931,8 +4173,13 @@ if (!editorElement || !editorRoot) {
     const layoutObserver = new ResizeObserver(() => {
       renderSelectionLayer();
       renderFineSelectionLayer();
+      scheduleBlockToolsScrollableStateUpdate();
     });
     layoutObserver.observe(editorRoot);
+
+    if (blockToolsGroup instanceof HTMLElement) {
+      layoutObserver.observe(blockToolsGroup);
+    }
   }
 
   editor.on("update", () => {

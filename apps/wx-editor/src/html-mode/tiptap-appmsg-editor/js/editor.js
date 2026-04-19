@@ -58,6 +58,36 @@ const PASTE_STYLE_MARK_TYPES = [
   "highlight",
 ];
 
+const BLOCK_CONTENT_TAGS = new Set([
+  "ADDRESS",
+  "ARTICLE",
+  "ASIDE",
+  "BLOCKQUOTE",
+  "DIV",
+  "DL",
+  "FIELDSET",
+  "FIGCAPTION",
+  "FIGURE",
+  "FOOTER",
+  "FORM",
+  "H1",
+  "H2",
+  "H3",
+  "H4",
+  "H5",
+  "H6",
+  "HEADER",
+  "HR",
+  "MAIN",
+  "NAV",
+  "OL",
+  "P",
+  "PRE",
+  "SECTION",
+  "TABLE",
+  "UL",
+]);
+
 function mergeInlineStyles(...styleTexts) {
   if (typeof document === "undefined") {
     return styleTexts
@@ -103,6 +133,261 @@ function classAttrConfig() {
   };
 }
 
+function styleTextToMap(styleText) {
+  const styleMap = new Map();
+  if (!styleText || typeof styleText !== "string") {
+    return styleMap;
+  }
+
+  styleText
+    .split(";")
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .forEach((item) => {
+      const [property, ...rest] = item.split(":");
+      if (!property || !rest.length) return;
+      styleMap.set(property.trim().toLowerCase(), rest.join(":").trim());
+    });
+
+  return styleMap;
+}
+
+function styleMapToText(styleMap) {
+  return Array.from(styleMap.entries())
+    .map(([property, value]) => `${property}: ${value}`)
+    .join("; ");
+}
+
+function isZeroCssValue(value) {
+  if (!value || typeof value !== "string") return true;
+  return /^0(?:\.0+)?(?:[a-z%]*)?$/i.test(value.trim());
+}
+
+function parseCssPair(value, fallback = "0px") {
+  if (!value || typeof value !== "string") {
+    return [fallback, fallback];
+  }
+
+  const parts = value
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (!parts.length) {
+    return [fallback, fallback];
+  }
+
+  if (parts.length === 1) {
+    return [parts[0], parts[0]];
+  }
+
+  return [parts[0], parts[1]];
+}
+
+function parseCssWeight(value) {
+  if (!value || typeof value !== "string") return null;
+  const nextValue = Number.parseFloat(value);
+  if (!Number.isFinite(nextValue) || nextValue <= 0) {
+    return null;
+  }
+  return nextValue;
+}
+
+function copyElementAttributes(source, target, excludeAttrNames = []) {
+  const excluded = new Set(excludeAttrNames.map((name) => name.toLowerCase()));
+  Array.from(source.attributes).forEach((attribute) => {
+    if (excluded.has(attribute.name.toLowerCase())) return;
+    target.setAttribute(attribute.name, attribute.value);
+  });
+}
+
+function appendSectionCompatibleChildren(doc, sourceElement, targetElement) {
+  const inlineBuffer = [];
+
+  const flushInlineBuffer = () => {
+    if (!inlineBuffer.length) return;
+
+    const paragraph = doc.createElement("p");
+    inlineBuffer.forEach((node) => {
+      paragraph.appendChild(node);
+    });
+    inlineBuffer.length = 0;
+    targetElement.appendChild(paragraph);
+  };
+
+  while (sourceElement.firstChild) {
+    const childNode = sourceElement.firstChild;
+    sourceElement.removeChild(childNode);
+
+    if (childNode.nodeType === 3) {
+      if (!childNode.textContent?.trim()) {
+        continue;
+      }
+      inlineBuffer.push(childNode);
+      continue;
+    }
+
+    if (childNode.nodeType !== 1) {
+      continue;
+    }
+
+    if (BLOCK_CONTENT_TAGS.has(childNode.tagName)) {
+      flushInlineBuffer();
+      targetElement.appendChild(childNode);
+      continue;
+    }
+
+    inlineBuffer.push(childNode);
+  }
+
+  flushInlineBuffer();
+
+  if (!targetElement.firstChild) {
+    targetElement.appendChild(doc.createElement("p"));
+  }
+}
+
+function getTableRows(table) {
+  const rows = [];
+  Array.from(table.children).forEach((child) => {
+    if (!(child instanceof HTMLElement)) return;
+
+    if (child.tagName === "TR") {
+      rows.push(child);
+      return;
+    }
+
+    if (["TBODY", "THEAD", "TFOOT"].includes(child.tagName)) {
+      Array.from(child.children).forEach((row) => {
+        if (row instanceof HTMLElement && row.tagName === "TR") {
+          rows.push(row);
+        }
+      });
+    }
+  });
+  return rows;
+}
+
+function convertTableToSections(doc, table) {
+  const rows = getTableRows(table);
+  if (!rows.length) return null;
+
+  const tableSection = doc.createElement("section");
+  copyElementAttributes(table, tableSection, [
+    "style",
+    "width",
+    "height",
+    "border",
+    "cellpadding",
+    "cellspacing",
+    "align",
+    "valign",
+  ]);
+
+  const tableStyleMap = styleTextToMap(table.getAttribute("style"));
+  const [columnGap, rowGap] = parseCssPair(
+    tableStyleMap.get("border-spacing"),
+    "0px"
+  );
+  const originalWidth = tableStyleMap.get("width");
+
+  tableStyleMap.delete("border-collapse");
+  tableStyleMap.delete("border-spacing");
+  tableStyleMap.delete("table-layout");
+
+  tableStyleMap.set("display", "flex");
+  tableStyleMap.set("flex-direction", "column");
+  if (isZeroCssValue(rowGap)) {
+    tableStyleMap.delete("gap");
+  } else {
+    tableStyleMap.set("gap", rowGap);
+  }
+
+  if (originalWidth) {
+    tableStyleMap.set("width", "100%");
+    tableStyleMap.set("max-width", originalWidth);
+  } else if (!tableStyleMap.has("width")) {
+    tableStyleMap.set("width", "100%");
+  }
+
+  const nextTableStyle = styleMapToText(tableStyleMap);
+  if (nextTableStyle) {
+    tableSection.setAttribute("style", nextTableStyle);
+  }
+
+  rows.forEach((row) => {
+    const cells = Array.from(row.children).filter(
+      (cell) =>
+        cell instanceof HTMLElement &&
+        ["TD", "TH"].includes(cell.tagName)
+    );
+    if (!cells.length) return;
+
+    const rowSection = doc.createElement("section");
+    copyElementAttributes(row, rowSection, [
+      "style",
+      "width",
+      "height",
+      "align",
+      "valign",
+    ]);
+
+    const rowStyleMap = styleTextToMap(row.getAttribute("style"));
+    rowStyleMap.set("display", "flex");
+    rowStyleMap.set("width", "100%");
+    rowStyleMap.set("align-items", "stretch");
+    if (isZeroCssValue(columnGap)) {
+      rowStyleMap.delete("gap");
+    } else {
+      rowStyleMap.set("gap", columnGap);
+    }
+
+    const nextRowStyle = styleMapToText(rowStyleMap);
+    if (nextRowStyle) {
+      rowSection.setAttribute("style", nextRowStyle);
+    }
+
+    const widthWeights = cells.map((cell) =>
+      parseCssWeight(styleTextToMap(cell.getAttribute("style")).get("width"))
+    );
+    const hasWeightedCells = widthWeights.some((weight) => weight !== null);
+
+    cells.forEach((cell, index) => {
+      const cellSection = doc.createElement("section");
+      copyElementAttributes(cell, cellSection, [
+        "style",
+        "width",
+        "height",
+        "align",
+        "valign",
+      ]);
+
+      const cellStyleMap = styleTextToMap(cell.getAttribute("style"));
+      const widthWeight =
+        hasWeightedCells && widthWeights[index] !== null
+          ? widthWeights[index]
+          : 1;
+
+      cellStyleMap.delete("width");
+      cellStyleMap.delete("vertical-align");
+      cellStyleMap.set("min-width", "0");
+      cellStyleMap.set("flex", `${widthWeight} 1 0%`);
+
+      const nextCellStyle = styleMapToText(cellStyleMap);
+      if (nextCellStyle) {
+        cellSection.setAttribute("style", nextCellStyle);
+      }
+
+      appendSectionCompatibleChildren(doc, cell, cellSection);
+      rowSection.appendChild(cellSection);
+    });
+
+    tableSection.appendChild(rowSection);
+  });
+
+  return tableSection;
+}
+
 function normalizePastedHtml(html) {
   if (!html || typeof DOMParser === "undefined") {
     return html;
@@ -116,6 +401,15 @@ function normalizePastedHtml(html) {
   body
     .querySelectorAll("script,style,link,meta,noscript,template")
     .forEach((element) => element.remove());
+
+  Array.from(body.querySelectorAll("table"))
+    .reverse()
+    .forEach((table) => {
+      if (!(table instanceof HTMLElement)) return;
+      const replacement = convertTableToSections(doc, table);
+      if (!replacement) return;
+      table.replaceWith(replacement);
+    });
 
   const elements = Array.from(body.querySelectorAll("*"));
   elements.forEach((element) => {

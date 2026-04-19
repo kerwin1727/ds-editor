@@ -60,10 +60,14 @@ const resourceState = {
   authUser: null,
 };
 
+const RESOURCE_PREVIEW_CANVAS_WIDTH = 760;
+const RESOURCE_PREVIEW_PADDING = 10;
+
 let searchTimer = null;
 let pendingAfterLoginAction = null;
 let pendingUploadPayload = null;
 let uploadModal = null;
+let previewScaleFrame = 0;
 
 renderGraphicList();
 rehydrateAuth();
@@ -268,6 +272,164 @@ function formatResourceSummary(item) {
   return htmlToPlainText(item.contentHtml).slice(0, 120) || "暂无描述";
 }
 
+function buildResourcePreviewFallback(item) {
+  const title = escapeHtml(item.title || "未命名资源");
+  const summary = escapeHtml(formatResourceSummary(item));
+  return `
+    <div class="resource-card-preview-empty">
+      <div class="resource-card-preview-empty-title">${title}</div>
+      <div class="resource-card-preview-empty-text">${summary}</div>
+    </div>
+  `;
+}
+
+function buildResourcePreviewHtml(item) {
+  const sourceHtml = String(item.contentHtml || "").trim();
+  if (!sourceHtml) {
+    return buildResourcePreviewFallback(item);
+  }
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(sourceHtml, "text/html");
+  const previewRoot = doc.body;
+  if (!previewRoot) {
+    return buildResourcePreviewFallback(item);
+  }
+
+  previewRoot
+    .querySelectorAll("script, style, link[rel='stylesheet'], noscript, meta, title")
+    .forEach((node) => node.remove());
+
+  previewRoot
+    .querySelectorAll("iframe, video, audio, embed, object")
+    .forEach((node) => {
+      const placeholder = doc.createElement("div");
+      placeholder.className = "resource-card-preview-media-placeholder";
+      placeholder.textContent = node.tagName === "IFRAME" ? "嵌入内容预览" : "媒体内容预览";
+      node.replaceWith(placeholder);
+    });
+
+  Array.from(previewRoot.children)
+    .slice(6)
+    .forEach((node) => node.remove());
+
+  previewRoot.querySelectorAll("*").forEach((node) => {
+    Array.from(node.attributes).forEach(({ name }) => {
+      const attrName = String(name || "").toLowerCase();
+      if (attrName.startsWith("on")) {
+        node.removeAttribute(name);
+      }
+    });
+
+    if ("style" in node && node.style) {
+      if (node.style.position === "fixed" || node.style.position === "sticky") {
+        node.style.position = "static";
+        node.style.top = "";
+        node.style.right = "";
+        node.style.bottom = "";
+        node.style.left = "";
+      }
+      node.style.animation = "none";
+      node.style.transition = "none";
+      node.style.scrollBehavior = "auto";
+    }
+
+    const tagName = node.tagName.toLowerCase();
+    if (tagName === "a") {
+      node.removeAttribute("href");
+      node.removeAttribute("target");
+      node.removeAttribute("download");
+    }
+
+    if (tagName === "img") {
+      node.setAttribute("loading", "lazy");
+      node.setAttribute("decoding", "async");
+      node.setAttribute("draggable", "false");
+      if (!node.getAttribute("alt")) {
+        node.setAttribute("alt", item.title || "资源预览");
+      }
+    }
+  });
+
+  const meaningfulText = htmlToPlainText(previewRoot.innerHTML);
+  const hasVisualContent = Boolean(
+    previewRoot.querySelector(
+      "img, svg, table, blockquote, ul, ol, section, article, figure, h1, h2, h3"
+    )
+  );
+
+  if (!meaningfulText && !hasVisualContent) {
+    return buildResourcePreviewFallback(item);
+  }
+
+  return `
+    <div class="resource-card-preview-scale">
+      <div class="resource-card-preview-canvas">${previewRoot.innerHTML}</div>
+    </div>
+  `;
+}
+
+function getResourceActionIcon(action, isActive = false) {
+  if (action === "apply") {
+    return `
+      <svg class="resource-action-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M10 3.5v7.5m0 0 3-3m-3 3-3-3M4 12.5v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    `;
+  }
+  if (action === "favorite") {
+    return isActive
+      ? `
+        <svg class="resource-action-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path d="M10 2.9 12.19 7l4.62.63-3.35 3.18.83 4.57L10 13.28l-4.29 2.1.82-4.57L3.18 7.63 7.8 7 10 2.9Z" />
+        </svg>
+      `
+      : `
+        <svg class="resource-action-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M10 2.9 12.19 7l4.62.63-3.35 3.18.83 4.57L10 13.28l-4.29 2.1.82-4.57L3.18 7.63 7.8 7 10 2.9Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+        </svg>
+      `;
+  }
+  if (action === "edit") {
+    return `
+      <svg class="resource-action-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="m13.9 3.6 2.5 2.5M5.1 14.9l2.7-.5 8.2-8.2a1.8 1.8 0 0 0-2.5-2.5l-8.2 8.2-.5 2.7Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    `;
+  }
+  if (action === "delete") {
+    return `
+      <svg class="resource-action-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M4.5 5.5h11m-9.5 0 .4 9a1 1 0 0 0 1 .9h4.2a1 1 0 0 0 1-.9l.4-9m-5.8 0V4.3a.8.8 0 0 1 .8-.8h2.4a.8.8 0 0 1 .8.8v1.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    `;
+  }
+  return "";
+}
+
+function renderResourceActionButton(action, label, options = {}) {
+  const classNames = ["resource-action-btn", "is-icon"];
+  if (options.variant) {
+    classNames.push(`is-${options.variant}`);
+  }
+  if (options.active) {
+    classNames.push("is-active");
+  }
+
+  const safeLabel = escapeHtml(label);
+  return `
+    <button
+      type="button"
+      class="${classNames.join(" ")}"
+      data-action="${action}"
+      title="${safeLabel}"
+      aria-label="${safeLabel}"
+    >
+      ${getResourceActionIcon(action, Boolean(options.active))}
+    </button>
+  `;
+}
+
 function renderResourceList(items) {
   const $list = resourceElements.list;
   if (!$list) return;
@@ -289,35 +451,49 @@ function renderResourceList(items) {
   const cardsHtml = items
     .map((item) => {
       const ownResource = currentUserId && Number(item.ownerId) === Number(currentUserId);
-      const summary = escapeHtml(formatResourceSummary(item));
       const title = escapeHtml(item.title || "未命名资源");
       const ownerName = escapeHtml(item.ownerName || "未知作者");
       const typeLabel = escapeHtml(getResourceTypeLabel(item.type));
+      const previewHtml = buildResourcePreviewHtml(item);
+      const applyLabel = escapeHtml(`应用资源：${item.title || "未命名资源"}`);
+      const actionButtons = [
+        renderResourceActionButton("apply", "应用", { variant: "primary" }),
+        renderResourceActionButton(
+          "favorite",
+          item.isFavorite ? "取消收藏" : "收藏",
+          { active: item.isFavorite }
+        ),
+      ];
+
+      if (ownResource) {
+        actionButtons.push(renderResourceActionButton("edit", "编辑"));
+        actionButtons.push(
+          renderResourceActionButton("delete", "删除", { variant: "danger" })
+        );
+      }
 
       return `
         <div class="resource-card" data-id="${item.id}">
-          <div class="resource-card-header">
-            <div class="resource-card-title" title="${title}">${title}</div>
+          <div
+            class="resource-card-preview-shell"
+            data-action="apply"
+            role="button"
+            tabindex="0"
+            aria-label="${applyLabel}"
+          >
             <div class="resource-card-badges">
               <span class="resource-badge resource-type-badge">${typeLabel}</span>
               ${item.isPublic ? '<span class="resource-badge">公开</span>' : '<span class="resource-badge is-private">私有</span>'}
             </div>
+            <div class="resource-card-actions">${actionButtons.join("")}</div>
+            <div class="resource-card-preview-stage">${previewHtml}</div>
           </div>
-          <div class="resource-card-summary">${summary}</div>
-          <div class="resource-card-meta">
-            <span>作者：${ownerName}</span>
-            <span>${new Date(item.updatedAt || item.createdAt).toLocaleDateString()}</span>
-          </div>
-          <div class="resource-card-actions">
-            <button type="button" class="resource-action-btn is-primary" data-action="apply">应用</button>
-            <button type="button" class="resource-action-btn" data-action="favorite">${
-              item.isFavorite ? "取消收藏" : "收藏"
-            }</button>
-            ${
-              ownResource
-                ? '<button type="button" class="resource-action-btn" data-action="edit">编辑</button><button type="button" class="resource-action-btn is-danger" data-action="delete">删除</button>'
-                : ""
-            }
+          <div class="resource-card-body">
+            <div class="resource-card-title" title="${title}">${title}</div>
+            <div class="resource-card-meta">
+              <span>作者：${ownerName}</span>
+              <span>${new Date(item.updatedAt || item.createdAt).toLocaleDateString()}</span>
+            </div>
           </div>
         </div>
       `;
@@ -325,6 +501,34 @@ function renderResourceList(items) {
     .join("");
 
   $list.innerHTML = cardsHtml;
+  syncResourcePreviewScales();
+}
+
+function syncResourcePreviewScales() {
+  if (!resourceElements.list) return;
+
+  if (previewScaleFrame) {
+    window.cancelAnimationFrame(previewScaleFrame);
+  }
+
+  previewScaleFrame = window.requestAnimationFrame(() => {
+    previewScaleFrame = 0;
+
+    resourceElements.list
+      .querySelectorAll(".resource-card-preview-stage")
+      .forEach((stage) => {
+        const stageWidth =
+          stage.clientWidth || stage.getBoundingClientRect?.().width || 0;
+        if (!stageWidth) return;
+
+        const availableWidth = Math.max(
+          stageWidth - RESOURCE_PREVIEW_PADDING * 2,
+          1
+        );
+        const scale = Math.max(availableWidth / RESOURCE_PREVIEW_CANVAS_WIDTH, 0.12);
+        stage.style.setProperty("--resource-preview-scale", String(scale));
+      });
+  });
 }
 
 function setScope(scopeName) {
@@ -734,6 +938,22 @@ function bindResourceLibraryEvents() {
     if (action === "delete") {
       deleteResource(item);
     }
+  });
+
+  resourceElements.list?.addEventListener("keydown", (event) => {
+    if (!(event.target instanceof Element)) return;
+    if (!event.target.matches(".resource-card-preview-shell[data-action='apply']")) {
+      return;
+    }
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+    event.preventDefault();
+    event.target.click();
+  });
+
+  window.addEventListener("resize", () => {
+    syncResourcePreviewScales();
   });
 
   window.addEventListener(RESOURCE_UPLOAD_REQUEST_EVENT, (event) => {

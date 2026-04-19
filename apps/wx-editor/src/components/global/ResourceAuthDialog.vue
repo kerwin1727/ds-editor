@@ -215,7 +215,7 @@ defineExpose({
               </figure>
             </div>
             <p class="resource-auth-copy">
-              此为高级功能如果用得顺手请支持作者一杯咖啡，ps实际是交服务器费用苦笑😅，当然不用高级功能其实也可以开心的码字，支持完成加我微信好友发截图我会给你账号。
+              此为高级功能如果用得顺手请支持作者一杯咖啡，ps：实际是交服务器费用😅，当然不用高级功能其实也可以开心的码字。
             </p>
             <div class="resource-auth-actions support-actions">
               <button type="button" class="resource-auth-secondary" @click="backToLogin">

@@ -16,6 +16,14 @@ function setTooltip(selector, title, root = document) {
   });
 }
 
+function disableCustomTooltip(selector, root = document) {
+  if (!root) return;
+  const elements = root.querySelectorAll(selector);
+  elements.forEach((element) => {
+    element.removeAttribute("data-tooltip");
+  });
+}
+
 function applyChineseTooltips() {
   // Header operations
   setTooltip(".header .dropdown-image .module-item", "插入图片");
@@ -70,6 +78,25 @@ function applyChineseTooltips() {
 }
 
 applyChineseTooltips();
+[
+  ".block-align-left-trigger",
+  ".block-align-center-trigger",
+  ".block-align-right-trigger",
+  ".block-distribute-vertical-trigger",
+  ".block-equal-width-trigger",
+  ".block-reset-layout-trigger",
+  ".block-move-up-trigger",
+  ".block-move-down-trigger",
+  ".block-duplicate-trigger",
+  ".block-delete-trigger",
+  ".block-group-trigger",
+  ".block-ungroup-trigger",
+  ".block-group-name-trigger",
+  ".block-group-collapse-trigger",
+  ".block-fine-mode-trigger",
+].forEach((selector) => {
+  disableCustomTooltip(selector, $toolbar);
+});
 
 // toolbar状态维护
 const toolbarListeners = [];

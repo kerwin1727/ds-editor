@@ -1,19 +1,61 @@
 ﻿<script setup lang="ts">
+import CodeMirror from 'codemirror'
+import 'codemirror/addon/edit/closetag'
+import 'codemirror/addon/edit/matchtags'
+import 'codemirror/mode/htmlmixed/htmlmixed'
+import 'codemirror/mode/xml/xml'
 import appShellRaw from '@/html-mode/tiptap-appmsg-editor/app-shell.html?raw'
 
 defineOptions({ name: `HtmlModeEditor` })
 
+type HtmlEditorBridge = {
+  getHTML: () => string
+  isDestroyed?: boolean
+  commands: {
+    setContent: (
+      content: string,
+      emitUpdate?: boolean,
+      parseOptions?: Record<string, unknown>,
+    ) => boolean
+  }
+  on: (event: `update`, callback: () => void) => void
+  off: (event: `update`, callback: () => void) => void
+}
+
 const tiptapRoot = ref<HTMLDivElement | null>(null)
+const sourceEditorTextarea = ref<HTMLTextAreaElement | null>(null)
 const isBootstrapped = ref(false)
 const loadProgress = ref(0)
 const displayProgress = computed(() => Math.round(loadProgress.value))
 const advancedModeEnabled = ref(false)
 const nightModeEnabled = ref(false)
+const sourceViewEnabled = ref(false)
+const sourceCode = ref(``)
+const sourceSyncState = ref<`idle` | `syncing` | `error`>(`idle`)
+const sourceSyncError = ref(``)
+const sourceStatusText = computed(() => {
+  if (sourceSyncState.value === `error`) {
+    return `同步失败`
+  }
+  if (sourceSyncState.value === `syncing`) {
+    return `同步中`
+  }
+  return `已同步`
+})
 
 let progressTimer: ReturnType<typeof window.setInterval> | null = null
+let sourceApplyTimer: ReturnType<typeof window.setTimeout> | null = null
+let htmlEditor: HtmlEditorBridge | null = null
+let sourceCodeEditor: CodeMirror.EditorFromTextArea | null = null
+let isApplyingSourceToPreview = false
+let isSourceEditorFocused = false
+let isSyncingSourceEditorValue = false
+
 const ADVANCED_MODE_STORAGE_KEY = `wx-editor:html-advanced-mode`
 const NIGHT_MODE_STORAGE_KEY = `wx-editor:html-night-mode`
+const SOURCE_VIEW_STORAGE_KEY = `wx-editor:html-source-view`
 const ADVANCED_MODE_TOGGLE_EVENT = `wx-editor:advanced-block-tools-toggle`
+const SOURCE_APPLY_DEBOUNCE_MS = 320
 
 const appShellBody = appShellRaw
   .replace(/\$\{links\}/g, ``)
@@ -25,6 +67,13 @@ const stopProgressSimulation = () => {
   if (progressTimer !== null) {
     window.clearInterval(progressTimer)
     progressTimer = null
+  }
+}
+
+const stopSourceApplyTimer = () => {
+  if (sourceApplyTimer !== null) {
+    window.clearTimeout(sourceApplyTimer)
+    sourceApplyTimer = null
   }
 }
 
@@ -56,6 +105,13 @@ const readNightMode = () => {
   return window.localStorage.getItem(NIGHT_MODE_STORAGE_KEY) === `1`
 }
 
+const readSourceView = () => {
+  if (typeof window === `undefined`) {
+    return false
+  }
+  return window.localStorage.getItem(SOURCE_VIEW_STORAGE_KEY) === `1`
+}
+
 const applyAdvancedMode = (enabled: boolean) => {
   if (typeof window === `undefined`) {
     return
@@ -85,16 +141,222 @@ const applyNightMode = (enabled: boolean) => {
   window.localStorage.setItem(NIGHT_MODE_STORAGE_KEY, enabled ? `1` : `0`)
 }
 
+const applySourceView = (enabled: boolean) => {
+  if (typeof window === `undefined`) {
+    return
+  }
+  window.localStorage.setItem(SOURCE_VIEW_STORAGE_KEY, enabled ? `1` : `0`)
+}
+
+const getSourceEditorTheme = () => (nightModeEnabled.value ? `darcula` : `xq-light`)
+
+const getCurrentSourceCode = () => (sourceCodeEditor ? sourceCodeEditor.getValue() : sourceCode.value)
+
+const syncSourceEditorValue = (nextHtml: string) => {
+  sourceCode.value = nextHtml
+
+  if (!sourceCodeEditor || sourceCodeEditor.getValue() === nextHtml) {
+    return
+  }
+
+  isSyncingSourceEditorValue = true
+  sourceCodeEditor.setValue(nextHtml)
+  isSyncingSourceEditorValue = false
+}
+
 const toggleNightMode = () => {
   nightModeEnabled.value = !nightModeEnabled.value
   applyNightMode(nightModeEnabled.value)
 }
 
+const syncSourceFromPreview = (force = false) => {
+  if (!htmlEditor || htmlEditor.isDestroyed) {
+    return
+  }
+  if (!force && isSourceEditorFocused) {
+    return
+  }
+  syncSourceEditorValue(htmlEditor.getHTML())
+  sourceSyncState.value = `idle`
+  sourceSyncError.value = ``
+}
+
+const handleEditorUpdate = () => {
+  if (isApplyingSourceToPreview) {
+    isApplyingSourceToPreview = false
+    sourceSyncState.value = `idle`
+    sourceSyncError.value = ``
+    return
+  }
+  syncSourceFromPreview()
+}
+
+const applySourceToPreviewNow = () => {
+  stopSourceApplyTimer()
+
+  if (!htmlEditor || htmlEditor.isDestroyed) {
+    return
+  }
+
+  const nextHtml = getCurrentSourceCode()
+  const currentHtml = htmlEditor.getHTML()
+
+  if (nextHtml === currentHtml) {
+    sourceSyncState.value = `idle`
+    sourceSyncError.value = ``
+    return
+  }
+
+  try {
+    sourceSyncState.value = `syncing`
+    sourceSyncError.value = ``
+    isApplyingSourceToPreview = true
+
+    const applied = htmlEditor.commands.setContent(nextHtml, true, {
+      preserveWhitespace: `full`,
+    })
+
+    if (applied === false) {
+      throw new Error(`源码未能应用到预览`)
+    }
+
+    window.setTimeout(() => {
+      if (!isApplyingSourceToPreview) {
+        return
+      }
+      isApplyingSourceToPreview = false
+      sourceSyncState.value = `idle`
+    }, 0)
+  } catch (error) {
+    isApplyingSourceToPreview = false
+    sourceSyncState.value = `error`
+    sourceSyncError.value = error instanceof Error
+      ? error.message
+      : `源码同步失败，请检查 HTML 内容`
+  }
+}
+
+const scheduleSourceApply = () => {
+  if (!sourceViewEnabled.value) {
+    return
+  }
+
+  sourceSyncState.value = `syncing`
+  sourceSyncError.value = ``
+  stopSourceApplyTimer()
+  sourceApplyTimer = window.setTimeout(() => {
+    applySourceToPreviewNow()
+  }, SOURCE_APPLY_DEBOUNCE_MS)
+}
+
+const handleSourceEditorChange = (instance: CodeMirror.Editor) => {
+  if (isSyncingSourceEditorValue) {
+    return
+  }
+
+  sourceCode.value = instance.getValue()
+  scheduleSourceApply()
+}
+
+const createSourceCodeEditor = () => {
+  if (sourceCodeEditor || !sourceEditorTextarea.value) {
+    return
+  }
+
+  const sourceEditorConfig: CodeMirror.EditorConfiguration & Record<string, unknown> = {
+    mode: `text/html`,
+    theme: getSourceEditorTheme(),
+    lineNumbers: true,
+    lineWrapping: true,
+    styleActiveLine: true,
+    autoCloseBrackets: true,
+    dragDrop: false,
+    inputStyle: `contenteditable`,
+    spellcheck: false,
+    indentUnit: 2,
+    tabSize: 2,
+    matchTags: { bothTags: true },
+    autoCloseTags: true,
+    extraKeys: {
+      Tab: (instance: CodeMirror.Editor) => {
+        if (instance.somethingSelected()) {
+          instance.indentSelection(`add`)
+          return
+        }
+
+        instance.replaceSelection(`  `, `end`)
+      },
+      [`Shift-Tab`]: (instance: CodeMirror.Editor) => {
+        instance.indentSelection(`subtract`)
+      },
+      [`Ctrl-S`]: () => {
+        applySourceToPreviewNow()
+      },
+      [`Cmd-S`]: () => {
+        applySourceToPreviewNow()
+      },
+    },
+  }
+
+  sourceCodeEditor = markRaw(CodeMirror.fromTextArea(sourceEditorTextarea.value, sourceEditorConfig))
+  sourceCodeEditor.on(`change`, handleSourceEditorChange)
+  sourceCodeEditor.on(`focus`, handleSourceEditorFocus)
+  sourceCodeEditor.on(`blur`, handleSourceEditorBlur)
+  syncSourceEditorValue(sourceCode.value)
+}
+
+const ensureSourceCodeEditorReady = async (focus = false) => {
+  if (!isBootstrapped.value) {
+    return
+  }
+
+  await nextTick()
+  createSourceCodeEditor()
+
+  if (!sourceCodeEditor) {
+    return
+  }
+
+  sourceCodeEditor.refresh()
+
+  if (focus) {
+    sourceCodeEditor.focus()
+  }
+}
+
+const toggleSourceView = () => {
+  sourceViewEnabled.value = !sourceViewEnabled.value
+  applySourceView(sourceViewEnabled.value)
+
+  if (sourceViewEnabled.value) {
+    syncSourceFromPreview(true)
+    void ensureSourceCodeEditorReady(true)
+  } else {
+    stopSourceApplyTimer()
+    isSourceEditorFocused = false
+  }
+}
+
+const refreshSourceFromPreview = () => {
+  stopSourceApplyTimer()
+  syncSourceFromPreview(true)
+}
+
+const handleSourceEditorFocus = () => {
+  isSourceEditorFocused = true
+}
+
+const handleSourceEditorBlur = () => {
+  isSourceEditorFocused = false
+}
+
 onMounted(async () => {
   advancedModeEnabled.value = readAdvancedMode()
   nightModeEnabled.value = readNightMode()
+  sourceViewEnabled.value = readSourceView()
   applyAdvancedMode(advancedModeEnabled.value)
   applyNightMode(nightModeEnabled.value)
+  applySourceView(sourceViewEnabled.value)
   startProgressSimulation()
 
   if (tiptapRoot.value) {
@@ -104,22 +366,48 @@ onMounted(async () => {
   if (!isBootstrapped.value) {
     await nextTick()
     await import(`@/html-mode/tiptap-appmsg-editor/main.js`)
+    const editorModule = await import(`@/html-mode/tiptap-appmsg-editor/js/editor.js`)
+    htmlEditor = editorModule.default as HtmlEditorBridge
+    htmlEditor.on(`update`, handleEditorUpdate)
+    syncSourceFromPreview(true)
     stopProgressSimulation()
     loadProgress.value = 100
     await new Promise((resolve) => {
       window.setTimeout(resolve, 180)
     })
     isBootstrapped.value = true
+
+    if (sourceViewEnabled.value) {
+      await ensureSourceCodeEditorReady(true)
+    }
+  }
+})
+
+watch(nightModeEnabled, (enabled) => {
+  sourceCodeEditor?.setOption(`theme`, enabled ? `darcula` : `xq-light`)
+
+  if (sourceViewEnabled.value) {
+    window.requestAnimationFrame(() => {
+      sourceCodeEditor?.refresh()
+    })
   }
 })
 
 onBeforeUnmount(() => {
   stopProgressSimulation()
+  stopSourceApplyTimer()
+  if (htmlEditor && !htmlEditor.isDestroyed) {
+    htmlEditor.off(`update`, handleEditorUpdate)
+  }
+  if (sourceCodeEditor) {
+    sourceCodeEditor.toTextArea()
+    sourceCodeEditor = null
+  }
 })
 </script>
 
 <template>
-  <div class="html-mode-page" :class="{ 'is-night': nightModeEnabled }">
+  <div class="html-mode-page" :class="{ 'is-night': nightModeEnabled, 'is-source-view': sourceViewEnabled }">
     <!-- <header class="html-mode-header">
       <RouterLink class="mode-link" to="/md">
         Back to MD mode
@@ -141,6 +429,27 @@ onBeforeUnmount(() => {
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path
               d="M7 4.5V2M17 22v-2.5M2 7h2.5M19.5 17H22M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8M12 7l1.3 2.6 2.9.4-2.1 2 0.5 2.8L12 13.4 9.4 14.8l0.5-2.8-2.1-2 2.9-.4L12 7Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="source-toggle-btn icon-toggle-btn"
+          :class="{ 'is-enabled': sourceViewEnabled }"
+          :aria-pressed="sourceViewEnabled"
+          :aria-label="`源码视图${sourceViewEnabled ? '已开启' : '已关闭'}`"
+          :title="`源码视图${sourceViewEnabled ? '已开启' : '已关闭'}`"
+          :data-tooltip="`源码视图${sourceViewEnabled ? '已开启' : '已关闭'}`"
+          @click="toggleSourceView"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M8.5 7.5L4.5 12L8.5 16.5M15.5 7.5L19.5 12L15.5 16.5M13.5 5L10.5 19"
               fill="none"
               stroke="currentColor"
               stroke-width="1.8"
@@ -198,12 +507,48 @@ onBeforeUnmount(() => {
         </div>
       </div>
       <div ref="tiptapRoot" class="tiptap-shell" :class="{ 'is-booting': !isBootstrapped }" />
+      <aside v-if="isBootstrapped" v-show="sourceViewEnabled" class="html-source-panel">
+        <div class="html-source-panel__header">
+          <div class="html-source-panel__heading">
+            <div class="html-source-panel__kicker">Source</div>
+            <div class="html-source-panel__title">源码视图</div>
+          </div>
+          <span class="html-source-panel__status" :class="`is-${sourceSyncState}`">
+            {{ sourceStatusText }}
+          </span>
+        </div>
+        <div class="html-source-panel__note">
+          直接编辑 HTML，约 {{ SOURCE_APPLY_DEBOUNCE_MS }}ms 自动同步到预览。打开源码视图后，左侧模板/资源面板会隐藏。
+        </div>
+        <div v-if="sourceSyncState === 'error' && sourceSyncError" class="html-source-panel__error">
+          {{ sourceSyncError }}
+        </div>
+        <div class="html-source-panel__actions">
+          <button type="button" class="html-source-panel__btn" @click="refreshSourceFromPreview">
+            从预览载入
+          </button>
+          <button type="button" class="html-source-panel__btn html-source-panel__btn-primary" @click="applySourceToPreviewNow">
+            立即同步
+          </button>
+        </div>
+        <div class="html-source-panel__editor-shell">
+          <textarea
+            ref="sourceEditorTextarea"
+            class="html-source-panel__editor-textarea"
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
+          />
+        </div>
+      </aside>
     </main>
   </div>
 </template>
 
 <style scoped lang="less">
 .html-mode-page {
+  --html-source-panel-width: clamp(320px, 24vw, 460px);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -252,6 +597,7 @@ onBeforeUnmount(() => {
 }
 
 .advanced-toggle-btn,
+.source-toggle-btn,
 .night-toggle-btn {
   height: 34px;
   width: 34px;
@@ -269,6 +615,12 @@ onBeforeUnmount(() => {
   border-color: rgba(7, 193, 96, 0.4);
   color: #086d3a;
   background: rgba(220, 252, 231, 0.92);
+}
+
+.source-toggle-btn.is-enabled {
+  border-color: rgba(245, 158, 11, 0.45);
+  color: #92400e;
+  background: rgba(254, 243, 199, 0.95);
 }
 
 .night-toggle-btn.is-enabled {
@@ -321,6 +673,7 @@ onBeforeUnmount(() => {
 }
 
 .html-mode-page.is-night .advanced-toggle-btn,
+.html-mode-page.is-night .source-toggle-btn,
 .html-mode-page.is-night .night-toggle-btn {
   border-color: rgba(71, 85, 105, 0.75);
   color: #cbd5e1;
@@ -334,6 +687,12 @@ onBeforeUnmount(() => {
   background: rgba(6, 78, 59, 0.65);
 }
 
+.html-mode-page.is-night .source-toggle-btn.is-enabled {
+  border-color: rgba(251, 191, 36, 0.62);
+  color: #fde68a;
+  background: rgba(120, 53, 15, 0.72);
+}
+
 .html-mode-page.is-night .night-toggle-btn.is-enabled {
   border-color: rgba(96, 165, 250, 0.62);
   color: #bfdbfe;
@@ -344,6 +703,266 @@ onBeforeUnmount(() => {
   color: #e2e8f0;
   background: rgba(2, 6, 23, 0.92);
   box-shadow: 0 10px 24px rgba(2, 6, 23, 0.44);
+}
+
+.html-mode-page.is-source-view :deep(.sidebar) {
+  display: none;
+}
+
+.html-mode-page.is-source-view :deep(.editor-wrapper) {
+  padding-left: var(--html-source-panel-width);
+}
+
+.html-source-panel {
+  position: absolute;
+  top: 90px;
+  bottom: 0;
+  left: 0;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  width: var(--html-source-panel-width);
+  max-width: calc(100% - 80px);
+  padding: 18px 16px 16px;
+  border-right: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 12px 0 30px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.html-source-panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.html-source-panel__heading {
+  min-width: 0;
+}
+
+.html-source-panel__kicker {
+  color: #c2410c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.html-source-panel__title {
+  margin-top: 4px;
+  color: #0f172a;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.html-source-panel__status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.html-source-panel__status.is-idle {
+  color: #166534;
+  background: rgba(220, 252, 231, 0.95);
+}
+
+.html-source-panel__status.is-syncing {
+  color: #92400e;
+  background: rgba(254, 243, 199, 0.95);
+}
+
+.html-source-panel__status.is-error {
+  color: #991b1b;
+  background: rgba(254, 226, 226, 0.95);
+}
+
+.html-source-panel__note {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.55;
+  background: rgba(248, 250, 252, 0.95);
+}
+
+.html-source-panel__error {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(248, 113, 113, 0.26);
+  border-radius: 12px;
+  color: #b91c1c;
+  font-size: 12px;
+  line-height: 1.5;
+  background: rgba(254, 242, 242, 0.96);
+}
+
+.html-source-panel__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.html-source-panel__btn {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid rgba(203, 213, 225, 0.96);
+  border-radius: 10px;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(248, 250, 252, 0.98);
+}
+
+.html-source-panel__btn:hover {
+  background: rgba(241, 245, 249, 0.98);
+}
+
+.html-source-panel__btn-primary {
+  border-color: rgba(245, 158, 11, 0.34);
+  color: #92400e;
+  background: rgba(254, 243, 199, 0.96);
+}
+
+.html-source-panel__btn-primary:hover {
+  background: rgba(253, 230, 138, 0.98);
+}
+
+.html-source-panel__editor-shell {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  margin-top: 12px;
+  border: 1px solid rgba(203, 213, 225, 0.95);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.html-source-panel__editor-shell:focus-within {
+  border-color: rgba(245, 158, 11, 0.58);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.18);
+}
+
+.html-source-panel__editor-textarea {
+  display: none;
+}
+
+.html-source-panel__editor-shell :deep(.CodeMirror) {
+  height: 100%;
+  font-size: 12px;
+  line-height: 1.65;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+.html-source-panel__editor-shell :deep(.CodeMirror-scroll) {
+  min-height: 100%;
+}
+
+.html-source-panel__editor-shell :deep(.CodeMirror-lines) {
+  padding: 12px 0;
+}
+
+.html-source-panel__editor-shell :deep(.CodeMirror pre),
+.html-source-panel__editor-shell :deep(.CodeMirror-linenumber) {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+.html-source-panel__editor-shell :deep(.cm-s-xq-light.CodeMirror) {
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.html-source-panel__editor-shell :deep(.cm-s-xq-light .CodeMirror-gutters) {
+  border-right: 1px solid rgba(226, 232, 240, 0.96);
+  background: rgba(248, 250, 252, 0.98);
+}
+
+.html-mode-page.is-night .html-source-panel {
+  border-right-color: rgba(51, 65, 85, 0.92);
+  background: rgba(15, 23, 42, 0.96);
+  box-shadow: 12px 0 30px rgba(2, 6, 23, 0.28);
+}
+
+.html-mode-page.is-night .html-source-panel__kicker {
+  color: #fdba74;
+}
+
+.html-mode-page.is-night .html-source-panel__title {
+  color: #e2e8f0;
+}
+
+.html-mode-page.is-night .html-source-panel__status.is-idle {
+  color: #bbf7d0;
+  background: rgba(22, 101, 52, 0.56);
+}
+
+.html-mode-page.is-night .html-source-panel__status.is-syncing {
+  color: #fde68a;
+  background: rgba(120, 53, 15, 0.74);
+}
+
+.html-mode-page.is-night .html-source-panel__status.is-error {
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.78);
+}
+
+.html-mode-page.is-night .html-source-panel__note {
+  color: #94a3b8;
+  background: rgba(30, 41, 59, 0.84);
+}
+
+.html-mode-page.is-night .html-source-panel__error {
+  border-color: rgba(248, 113, 113, 0.28);
+  color: #fca5a5;
+  background: rgba(69, 10, 10, 0.78);
+}
+
+.html-mode-page.is-night .html-source-panel__btn {
+  border-color: rgba(71, 85, 105, 0.92);
+  color: #cbd5e1;
+  background: rgba(15, 23, 42, 0.92);
+}
+
+.html-mode-page.is-night .html-source-panel__btn:hover {
+  background: rgba(30, 41, 59, 0.96);
+}
+
+.html-mode-page.is-night .html-source-panel__btn-primary {
+  border-color: rgba(251, 191, 36, 0.38);
+  color: #fde68a;
+  background: rgba(120, 53, 15, 0.76);
+}
+
+.html-mode-page.is-night .html-source-panel__btn-primary:hover {
+  background: rgba(146, 64, 14, 0.84);
+}
+
+.html-mode-page.is-night .html-source-panel__editor-shell {
+  border-color: rgba(71, 85, 105, 0.92);
+  background: rgba(2, 6, 23, 0.92);
+}
+
+.html-mode-page.is-night .html-source-panel__editor-shell:focus-within {
+  border-color: rgba(251, 191, 36, 0.5);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+}
+
+.html-mode-page.is-night .html-source-panel__editor-shell :deep(.cm-s-darcula.CodeMirror) {
+  background: rgba(2, 6, 23, 0.92);
+}
+
+.html-mode-page.is-night .html-source-panel__editor-shell :deep(.cm-s-darcula .CodeMirror-gutters) {
+  border-right: 1px solid rgba(51, 65, 85, 0.92);
+  background: rgba(15, 23, 42, 0.9);
 }
 
 .html-mode-page.is-night :deep(.html-mode-loading) {
@@ -596,6 +1215,146 @@ onBeforeUnmount(() => {
 .html-mode-page.is-night :deep(.wx-block-context-menu-item:hover) {
   color: #e2e8f0;
   background: rgba(59, 130, 246, 0.2);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-panel) {
+  border-color: rgba(71, 85, 105, 0.88);
+  background: rgba(15, 23, 42, 0.96);
+  box-shadow: 0 22px 44px rgba(2, 6, 23, 0.58);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-header) {
+  border-bottom-color: rgba(51, 65, 85, 0.9);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-kicker) {
+  color: #86efac;
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-title) {
+  color: #e2e8f0;
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-meta),
+.html-mode-page.is-night :deep(.wx-style-inspector-empty),
+.html-mode-page.is-night :deep(.wx-style-inspector-note) {
+  color: #94a3b8;
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-badge) {
+  color: #bbf7d0;
+  background: rgba(22, 101, 52, 0.54);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-icon-btn) {
+  border-color: #334155;
+  color: #cbd5e1;
+  background: rgba(30, 41, 59, 0.86);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-icon-btn:hover) {
+  color: #e2e8f0;
+  background: rgba(51, 65, 85, 0.9);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-empty) {
+  border-color: rgba(71, 85, 105, 0.9);
+  background: rgba(15, 23, 42, 0.72);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-note) {
+  background: rgba(30, 41, 59, 0.78);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-sources) {
+  border-color: rgba(34, 197, 94, 0.26);
+  background: linear-gradient(135deg, rgba(6, 78, 59, 0.34), rgba(15, 23, 42, 0.72));
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-sources-title),
+.html-mode-page.is-night :deep(.wx-style-inspector-source-label) {
+  color: #bbf7d0;
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-source-item) {
+  border-color: rgba(22, 101, 52, 0.58);
+  background: rgba(15, 23, 42, 0.64);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-source-value) {
+  color: #94a3b8;
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-source-jump) {
+  border-color: rgba(34, 197, 94, 0.42);
+  color: #bbf7d0;
+  background: rgba(22, 101, 52, 0.52);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-source-jump:hover) {
+  background: rgba(21, 128, 61, 0.72);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-label) {
+  color: #cbd5e1;
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-input),
+.html-mode-page.is-night :deep(.wx-style-inspector-textarea),
+.html-mode-page.is-night :deep(.wx-style-inspector-color-picker) {
+  border-color: #334155;
+  color: #e2e8f0;
+  background: #0b1220;
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-input[data-mixed='1']),
+.html-mode-page.is-night :deep(.wx-style-inspector-textarea[data-mixed='1']),
+.html-mode-page.is-night :deep(.wx-style-inspector-color-picker[data-mixed='1']) {
+  background: rgba(30, 41, 59, 0.68);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-input:focus),
+.html-mode-page.is-night :deep(.wx-style-inspector-textarea:focus),
+.html-mode-page.is-night :deep(.wx-style-inspector-color-picker:focus) {
+  border-color: rgba(74, 222, 128, 0.72);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-btn) {
+  border-color: rgba(34, 197, 94, 0.42);
+  color: #bbf7d0;
+  background: rgba(22, 101, 52, 0.52);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-btn:hover) {
+  background: rgba(21, 128, 61, 0.72);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-btn-secondary) {
+  border-color: #334155;
+  color: #cbd5e1;
+  background: rgba(30, 41, 59, 0.88);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-btn-secondary:hover) {
+  background: rgba(51, 65, 85, 0.92);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-fab) {
+  border-color: rgba(71, 85, 105, 0.75);
+  color: #cbd5e1;
+  background: rgba(15, 23, 42, 0.88);
+  box-shadow: 0 10px 26px rgba(2, 6, 23, 0.5);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-fab:hover) {
+  background: rgba(30, 41, 59, 0.94);
+}
+
+.html-mode-page.is-night :deep(.wx-style-inspector-fab.is-active) {
+  border-color: rgba(34, 197, 94, 0.58);
+  color: #86efac;
+  background: rgba(6, 78, 59, 0.65);
 }
 
 .html-mode-page.is-night :deep(.sidebar .graphic-list .graphic-item),
